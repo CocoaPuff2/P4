@@ -1,0 +1,4 @@
+# ninja log v5
+0	232	1741333144256824403	build.ninja	5af3c9f101d8db8f
+1151	1287	1741330796066397862	my_executable	11dd7cbd48e4d150
+6	1151	1741330795926225577	CMakeFiles/my_executable.dir/driver.cpp.o	60b8e36fe6109c2b
