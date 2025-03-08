@@ -9,6 +9,8 @@
 
 using namespace std;
 
+// Data Structure: Hashtable
+
 class Customer{
 private:
     int customerID;  // store unique customer ID
@@ -26,13 +28,9 @@ public:
 
     // getters
     int getCustomerID() const; // Returns unique customer ID.
-
     string getFullName(); // Returns full name of customer (combine first and last names).
-
     string getFirst(); // Returns first name of customer.
-
     string getLast();  // Returns last name of customer.
-
 
     // setters
 

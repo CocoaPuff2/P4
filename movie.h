@@ -11,6 +11,8 @@ using namespace std;
  * For comedy movies: F, Stock, Director, Title, Year it released
  * For drama movies: D, Stock, Director, Title, Year it released
  * For classics movies: C, Stock, Director, Title, Major actor Release date
+ *
+ *  Data Structure: BST
  */
 
 // Movie is an abstract class
@@ -34,10 +36,20 @@ public:
     // destructor
     virtual ~Movie();
 
-    // setters
     // getters
+    char getGenre() const;
+    int getStock() const;
+    string getDirector() const;
+    string getTitle() const;
+    int getYear() const;
+
+    // setters
+    void setStock(int stock);  // Set the stock of available copies
 
     // functions for classics
+    virtual int getReleaseMonth();   // Get the release month (only for classics)
+    virtual string getMajorActorFirstName(); // Get the first name of the major actor (only for classics)
+    virtual string getMajorActorLastName();  // Get the last name of the major actor (only for classics)
 
     // display the movie details, overridden by subclasses
     virtual void display() const = 0;

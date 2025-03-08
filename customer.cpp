@@ -14,7 +14,14 @@ Customer::Customer() {
 }
 
 // param constructor
+Customer::Customer(int customerID, const string& firstName, const string& lastName)
+        : customerID(customerID), firstName(firstName), lastName(lastName) {
+    // nextCustomer = nullptr;
+    startTransaction = nullptr;
+}
+
 // destructor
+// todo
 
 // getters
 int Customer::getCustomerID() const { return customerID; }
@@ -28,4 +35,6 @@ string Customer::getLast() { return lastName; }
 void Customer::displayHistory() const {
     cout << "History for " << firstName << " " << lastName << ": " << endl;
     // todo
+    // Borrowed Harold and Maude by Hal Ashby
+    // Returned Harold and Maude by Hal Ashby
 }

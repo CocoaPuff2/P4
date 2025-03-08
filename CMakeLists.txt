@@ -21,7 +21,9 @@ set(SOURCES driver.cpp
         drama.cpp
         comedy.cpp
         store.h
-        store.cpp)
+        store.cpp
+        borrowmedia.h
+        returnmedia.h)
 
 # Add executable target
 add_executable(${PROJECT_NAME} ${SOURCES} movie.h)
