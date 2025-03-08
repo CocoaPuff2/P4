@@ -25,6 +25,7 @@ set(SOURCES driver.cpp
         borrowmedia.h
         returnmedia.h
         bst.cpp
+        hashtable.cpp
 )
 
 # Add executable target

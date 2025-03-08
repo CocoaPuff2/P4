@@ -26,7 +26,6 @@ public:
     Store();
     ~Store();
 
-
     // reading methods to read the files
     // Reads movie data from a given input file and populates the movie inventory.
     void readMovie(ifstream& file);
@@ -34,6 +33,9 @@ public:
     void readCustomers(ifstream& file);
     // Reads commands from an input file and processes them (borrow, return, history)
     void readCommands(ifstream& file);
+
+    // FACTORY METHOD to easily create and add new movies
+    Movie* createMovie(char genre, stringstream& ss);
 
     // storing methods
 
