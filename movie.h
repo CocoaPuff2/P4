@@ -51,6 +51,9 @@ public:
     virtual string getMajorActorFirstName(); // Get the first name of the major actor (only for classics)
     virtual string getMajorActorLastName();  // Get the last name of the major actor (only for classics)
 
+    // compare method for sorting purposes
+
+
     // display the movie details, overridden by subclasses
     virtual void display() const = 0;
 
