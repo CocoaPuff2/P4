@@ -6,8 +6,8 @@
 using namespace std;
 
 
-Comedy::Comedy(char genre, int stock, string director, string title, int year)
-        : Movie(genre, stock, director, title, year) {
+Comedy::Comedy(char genre, int stock, string director, string title, int year, char mediaType)
+        : Movie(genre, stock, director, title, year, mediaType) {
 
 }
 
@@ -35,7 +35,7 @@ int Comedy::compare(const Movie& other) const {
 }
 
 void Comedy::display() const {
-    cout << "F " << genre << " " << stock << " " << director << " " <<
+    cout << mediaType << " " << genre << " " << stock << " " << director << " " <<
          title << " " << year << endl;
 }
 

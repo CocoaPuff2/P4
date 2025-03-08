@@ -7,7 +7,8 @@ using namespace std;
 
 // todo & or not?
 Classics::Classics(char newGenre, int newStock, const string newDirector, const string newTitle,
-                   string newMajorActorFirstName, string newMajorActorLastName, int newReleaseMonth, int newYear) {
+                   string newMajorActorFirstName, string newMajorActorLastName, int newReleaseMonth,
+                   int newYear, char newMediaType) {
     genre = newGenre;
     stock = newStock;
     director = newDirector;
@@ -20,6 +21,7 @@ Classics::Classics(char newGenre, int newStock, const string newDirector, const 
     // ***
 
     year = newYear;
+    mediaType = newMediaType;
 }
 
 Classics::~Classics() {
@@ -68,7 +70,7 @@ int Classics::compare(const Movie& other) const {
 
 
 void Classics::display() const {
-    cout << "C " << genre << " " << stock << " " << director << " " <<
+    cout << mediaType << " " << genre << " " << stock << " " << director << " " <<
          title << " " << majorActorFirstName << " " << majorActorLastName << " " <<
          releaseMonth << " " << year << endl;
 }

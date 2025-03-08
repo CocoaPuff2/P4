@@ -4,8 +4,8 @@
 
 using namespace std;
 
-Drama::Drama(char genre, int stock, string director, string title, int year)
-        : Movie(genre, stock, director, title, year) {
+Drama::Drama(char genre, int stock, string director, string title, int year, char mediaType)
+        : Movie(genre, stock, director, title, year, mediaType) {
 
 }
 
@@ -34,6 +34,6 @@ int Drama::compare(const Movie& other) const {
 }
 
 void Drama::display() const {
-    cout << "D " << genre << " " << stock << " " << director << " " <<
+    cout << mediaType << " " <<  genre << " " << stock << " " << director << " " <<
          title << " " << year << endl;
 }

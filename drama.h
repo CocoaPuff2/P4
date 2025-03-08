@@ -9,7 +9,7 @@ using namespace std;
 
 class Drama : public Movie {
 public:
-    Drama(char genre, int stock, string director, string title, int year);
+    Drama(char genre, int stock, string director, string title, int year, char mediaType);
     ~Drama();
     // specifically for dramas, overrides the media version
     // const so that it doesn't modify the data, only reads it

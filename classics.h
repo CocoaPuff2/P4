@@ -18,7 +18,7 @@ public:
     // adds majorActorFirstName, majorActorLastName, and releaseMonth
     // todo & or not for director and title strings?
     Classics(char genre, int stock, const string director, const string title,
-             string  majorActorFirstName, string majorActorLastName, int releaseMonth, int year);
+             string  majorActorFirstName, string majorActorLastName, int releaseMonth, int year, char mediaType);
 
     ~Classics();
 

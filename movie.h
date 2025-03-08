@@ -23,6 +23,7 @@ protected:
     string director; // director of movie
     string title; // title of the movie
     int year;  // release year of the movie
+    char mediaType; // currently only supports 'D' for DVD
 
 public:
     // default constructor
@@ -32,7 +33,7 @@ public:
     // C, 10, Victor Fleming, The Wizard of Oz, Judy Garland 7 1939
     // F, 10, Nora Ephron, Sleepless in Seattle, 1993
     // D, 10, Barry Levinson, Good Morning Vietnam, 1988
-    Movie(char genre, int stock, const string& director, const string& title, int year);
+    Movie(char genre, int stock, const string& director, const string& title, int year, char mediaType);
     // destructor
     virtual ~Movie();
 
@@ -42,6 +43,7 @@ public:
     string getDirector() const;
     string getTitle() const;
     int getYear() const;
+    char getMediaType() const;
 
 
     // setters
