@@ -10,7 +10,18 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 # Specify source files explicitly
 set(SOURCES driver.cpp
         movie.cpp
-        transaction.h)
+        transaction.h
+        customer.h
+        customer.cpp
+        transaction.cpp
+        comedy.h
+        drama.h
+        classics.h
+        classics.cpp
+        drama.cpp
+        comedy.cpp
+        store.h
+        store.cpp)
 
 # Add executable target
 add_executable(${PROJECT_NAME} ${SOURCES} movie.h)

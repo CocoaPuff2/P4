@@ -14,7 +14,9 @@ protected:
 
 public:
     // default constructor
+    Transaction();
     // destructor
+    ~Transaction();
     // printing transaction details, must be implemented by derived classes to
 
     // getters
