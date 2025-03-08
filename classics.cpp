@@ -27,9 +27,45 @@ Classics::~Classics() {
 }
 
 
-string Classics::getMajorActorFirstName() { return majorActorFirstName; }
-string Classics::getMajorActorLastName() { return majorActorLastName; }
-int Classics::getReleaseMonth() { return releaseMonth; }
+string Classics::getMajorActorFirstName() const { return majorActorFirstName; }
+string Classics::getMajorActorLastName() const { return majorActorLastName; }
+int Classics::getReleaseMonth() const { return releaseMonth; }
+
+// classics (‘C’) are sorted by Release date, then Major actor
+// todo see how to sort
+int Classics::compare(const Movie& other) const {
+    // todo to be safe
+    // attempt to cast 'other' to a 'Classics' object
+    const Classics* otherClassics = dynamic_cast<const Classics*>(&other);
+    if (!otherClassics) {
+        // If  dynamic cast fails, it means 'other' is not of type 'Classics'
+        return 0;
+    }
+
+    // Compare by year first
+    if (year != otherClassics->getYear()) {
+        return (year < otherClassics->getYear()) ? -1 : 1;
+    }
+
+    // Compare by release month
+    if (releaseMonth != otherClassics->getReleaseMonth()) {
+        return (releaseMonth < otherClassics->getReleaseMonth()) ? -1 : 1;
+    }
+
+    // Compare by actor first name
+    if (majorActorFirstName != otherClassics->getMajorActorFirstName()) {
+        return (majorActorFirstName < otherClassics->getMajorActorFirstName()) ? -1 : 1;
+    }
+
+    // Compare by actor last name
+    if (majorActorLastName != otherClassics->getMajorActorLastName()) {
+        return (majorActorLastName < otherClassics->getMajorActorLastName()) ? -1 : 1;
+    }
+
+    // If all attributes are the same, return 0 (equal)
+    return 0;
+}
+
 
 void Classics::display() const {
     cout << "C " << genre << " " << stock << " " << director << " " <<

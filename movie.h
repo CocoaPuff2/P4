@@ -43,16 +43,12 @@ public:
     string getTitle() const;
     int getYear() const;
 
+
     // setters
     void setStock(int stock);  // Set the stock of available copies
 
-    // functions for classics
-    virtual int getReleaseMonth();   // Get the release month (only for classics)
-    virtual string getMajorActorFirstName(); // Get the first name of the major actor (only for classics)
-    virtual string getMajorActorLastName();  // Get the last name of the major actor (only for classics)
-
     // compare method for sorting purposes
-
+    virtual int compare(const Movie& other) const = 0; // Pure virtual function
 
     // display the movie details, overridden by subclasses
     virtual void display() const = 0;

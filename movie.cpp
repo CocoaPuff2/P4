@@ -19,10 +19,7 @@ Movie::Movie(char genre, int stock, const string& director, const string& title,
         : genre(genre), stock(stock), director(director), title(title), year(year) {}
 
 // destructor
-Movie::~Movie() {
-    // since Movie is abstract, it doesn't need a destructor because no direct objects of Movie
-    // can ever be instantiated.
-}
+Movie::~Movie() {}
 
 // getters
 char Movie::getGenre() const { return genre; }
@@ -34,12 +31,6 @@ int Movie::getYear() const { return year; }
 // setters
 void Movie::setStock(int newStock) { stock = newStock;}
 
-
-// keep these methods default, they are for classics only
-// default behavior (but Movie object cannot be instantiated)
-int Movie::getReleaseMonth() { return 0;}
-string Movie::getMajorActorFirstName() { return " "; }
-string Movie::getMajorActorLastName() {return " "; }
 
 
 

@@ -13,6 +13,7 @@ public:
     ~Comedy();
     // specifically for comedies, overrides the media version
     // const so that it doesn't modify the data, only reads it
+    int compare(const Movie& other) const override;
     void display() const;
 };
 

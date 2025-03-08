@@ -15,7 +15,28 @@ Comedy::~Comedy(){
     // todo
 }
 
+// comedy movies (‘F’) sorted by Title, then Year it released
+int Comedy::compare(const Movie& other) const {
+    if (title != other.getTitle()) {
+        // if title is lexicographically less than the other title
+        if (title < other.getTitle()) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+    if (year < other.getYear()) {
+        return -1;
+    } else if (year < other.getYear()) {
+        return 1;
+    } else {
+        return 1;
+    }
+}
+
 void Comedy::display() const {
     cout << "F " << genre << " " << stock << " " << director << " " <<
          title << " " << year << endl;
 }
+
+

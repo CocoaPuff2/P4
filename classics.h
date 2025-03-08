@@ -22,14 +22,16 @@ public:
 
     ~Classics();
 
+    int compare(const Movie& other) const override;
+
     // specifically for classics, overrides the media version
     // const so that it doesn't modify the data, only reads it
     void display() const;
 
     // getters
-    string getMajorActorFirstName();
-    string getMajorActorLastName();
-    int getReleaseMonth();
+    virtual int getReleaseMonth() const;   // Get the release month (only for classics)
+    virtual string getMajorActorFirstName() const ; // Get the first name of the major actor (only for classics)
+    virtual string getMajorActorLastName() const;  // Get the last name of the major actor (only for classics)
 
 };
 
