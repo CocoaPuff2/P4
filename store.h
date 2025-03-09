@@ -12,6 +12,7 @@
 #include <vector>        // For storing movies and transactions
 #include "customer.h"
 #include "movie.h"
+#include "bst.cpp"
 #include "transaction.h"
 #include "borrowmedia.h"
 #include "returnmedia.h"
@@ -21,6 +22,7 @@ class Store {
 protected:
     unordered_map<int, Customer*> customers;   // Hashtable for storing customers
     // hashtable for movies, each bucket points to a BST
+    BST movieInventory;  // BST to store movies
 
 public:
     Store();
@@ -35,6 +37,7 @@ public:
     void readCommands(ifstream& file);
 
     // FACTORY METHOD to easily create and add new movies
+    // const string& line
     Movie* createMovie(char genre, stringstream& ss);
 
     // storing methods
