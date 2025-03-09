@@ -67,7 +67,7 @@ public:
     void borrowMovie(int customerID, char genre, string movieDetails);
     // void borrowMovie(int customerID, int movieID);
 
-    void returnMovie(int customerID, int movieID);
+    void returnMovie(int customerID, char genre, string movieDetails);
 
     // Display transaction history for a customer
     // todo will call the customer display

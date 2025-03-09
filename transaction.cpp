@@ -18,9 +18,18 @@ string Transaction::getType() const { return type; } // Can be B or R
 Movie* Transaction::getMovie() const { return movie;}
 
 void Transaction::displayTransaction() const {
-    // Borrowed Holiday by George Cukor
-    std::cout << "Movie: " << movie->getTitle()  // Assuming Movie class has getTitle method
-              << ", Action: " << type << std::endl;
+    // Check if  transaction is a "Borrowed" or "Returned" action
+    if (type == "Borrowed") {
+        std::cout << "Borrowed " << movie->getTitle()   // Fetch the movie title
+                  << " by " << movie->getDirector()   // Fetch the movie director
+                  << std::endl;
+    } else if (type == "Returned") {
+        std::cout << "Returned " << movie->getTitle()   // Fetch the movie title
+                  << " by " << movie->getDirector()   // Fetch the movie director
+                  << std::endl;
+    } else {
+        std::cout << "Unknown transaction type." << std::endl;
+    }
 }
 
 

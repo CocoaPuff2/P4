@@ -10,7 +10,7 @@ using namespace std;
 // Transaction is an abstract class
 class Transaction {
 protected:
-    string type; // 'B' --> Borrow transaction, 'R' --> Return transaction
+    string type; // 'Borrowed' --> Borrow transaction, 'Return' --> Return transaction
     Movie* movie;
 
 public:

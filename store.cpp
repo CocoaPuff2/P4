@@ -218,10 +218,30 @@ void Store::borrowMovie(int customerID, char genre, string movieDetails) {
 
     // Use search method to find the movie based on the movieDetails
     if (genre == 'F') {  // Comedy
+        string title = movieDetails.substr(0, movieDetails.find(' '));
+        int year = stoi(movieDetails.substr(movieDetails.find(' ') + 1));
+        Movie* tempMovie = new Comedy('F', 0, "", title, year, 'D');  // Creating a temp Movie object for Comedy
+        movie = genreBST->search(tempMovie);
+        delete tempMovie;  // Clean up temporary Movie object
         // movie = genreBST->search(movieDetails);  // movieDetails is a {title, year} pair
     } else if (genre == 'D') {  // Drama
+        string director = movieDetails.substr(0, movieDetails.find(' '));
+        string title = movieDetails.substr(movieDetails.find(' ') + 1);
+        Movie* tempMovie = new Drama('D', 0, director, title, 0, 'D');  // Creating a temp Movie object for Drama
+        movie = genreBST->search(tempMovie);
+        delete tempMovie;
         // movie = genreBST->search(movieDetails);  // movieDetails is a {director, title} pair
     } else if (genre == 'C') {  // Classic
+        string month = movieDetails.substr(0, movieDetails.find(' '));
+        string remaining = movieDetails.substr(movieDetails.find(' ') + 1);
+        int year = stoi(remaining.substr(0, remaining.find(' ')));
+        string actor = remaining.substr(remaining.find(' ') + 1);
+        string firstName = actor.substr(0, actor.find(' '));
+        string lastName = actor.substr(actor.find(' ') + 1);
+
+        Movie* tempMovie = new Classics('C', 0, "", "", firstName, lastName, stoi(month), year, 'D');  // Creating a temp Movie object for Classic
+        movie = genreBST->search(tempMovie);
+        delete tempMovie;
         // movie = genreBST->search(movieDetails);  // movieDetails is a {month, year, actor} triplet
     }
 
@@ -241,11 +261,86 @@ void Store::borrowMovie(int customerID, char genre, string movieDetails) {
     Transaction* transaction = new Transaction(movie, "Borrowed");
 
     // Step 6: Add transaction to the customer's history
-    // todo
     customer->addTransaction(transaction);
 }
 
-void Store::returnMovie(int customerID, int movieID) {}
+void Store::returnMovie(int customerID, char genre, string movieDetails) {
+    // 1. Look up movie by genre
+    if (movieInventory.find(genre) == movieInventory.end()) {
+        cout << "Genre not found!" << endl;
+        return;
+    }
+
+    // 2. First see if customer exists, find index of bucket and then check LL
+    Customer* customer = nullptr;
+    int hashKey = hashFunction(customerID);  // Get  bucket index
+    LinkedListNode* node = customerTable[hashKey];
+
+    // Traverse linked list to find the customer
+    while (node) {
+        if (node->customer->getCustomerID() == customerID) {
+            customer = node->customer;
+            break;
+        }
+        node = node->next;
+    }
+
+    if (!customer) {
+        cout << "Return Transaction Failed -- Customer " << customerID << " does not exist." << endl;
+        return;
+    }
+
+    // Step 3: Find the movie in the BST based on movieDetails
+    BST* genreBST = movieInventory[genre];
+    Movie* movie = nullptr;
+
+    // Use search method to find the movie based on the movieDetails
+    if (genre == 'F') {  // Comedy
+        string title = movieDetails.substr(0, movieDetails.find(' '));
+        int year = stoi(movieDetails.substr(movieDetails.find(' ') + 1));
+        Movie* tempMovie = new Comedy('F', 0, "", title, year, 'D');  // Creating a temp Movie object for Comedy
+        movie = genreBST->search(tempMovie);
+        delete tempMovie;  // Clean up temporary Movie object
+        // movie = genreBST->search(movieDetails);  // movieDetails is a {title, year} pair
+    } else if (genre == 'D') {  // Drama
+        string director = movieDetails.substr(0, movieDetails.find(' '));
+        string title = movieDetails.substr(movieDetails.find(' ') + 1);
+        Movie* tempMovie = new Drama('D', 0, director, title, 0, 'D');  // Creating a temp Movie object for Drama
+        movie = genreBST->search(tempMovie);
+        delete tempMovie;
+        // movie = genreBST->search(movieDetails);  // movieDetails is a {director, title} pair
+    } else if (genre == 'C') {  // Classic
+        string month = movieDetails.substr(0, movieDetails.find(' '));
+        string remaining = movieDetails.substr(movieDetails.find(' ') + 1);
+        int year = stoi(remaining.substr(0, remaining.find(' ')));
+        string actor = remaining.substr(remaining.find(' ') + 1);
+        string firstName = actor.substr(0, actor.find(' '));
+        string lastName = actor.substr(actor.find(' ') + 1);
+
+        Movie* tempMovie = new Classics('C', 0, "", "", firstName, lastName, stoi(month), year, 'D');  // Creating a temp Movie object for Classic
+        movie = genreBST->search(tempMovie);
+        delete tempMovie;
+        // movie = genreBST->search(movieDetails);  // movieDetails is a {month, year, actor} triplet
+    }
+
+    if (!movie) {
+        cout << "Return Transaction Failed -- Movie does not Exist in the Inventory" << endl;
+        return;
+    }
+
+    // Step 4: Check if the movie is in stock (stock > 0)
+    if (movie->getStock() <= 0) {
+        cout << "Return Transaction Failed -- Not enough in the Stock." << endl;
+        return;
+    }
+
+    // Step 5: Increase stock and create a transaction
+    movie->increaseStock();  // Increase stock by 1
+    Transaction* transaction = new Transaction(movie, "Returned");
+
+    // Step 6: Add transaction to the customer's history
+    customer->addTransaction(transaction);
+}
 
 // Display transaction history for a customer
 void Store::displayHistory(int customerID) {
