@@ -17,7 +17,7 @@
 
 
 using namespace std;
-
+// todo: need to print all F, D, then C after putting them in BST
 
 Store::Store() {
 
@@ -153,10 +153,13 @@ void Store::readCommands(ifstream& file) {
         ss >> command;  // Read the command type
 
         if (command == 'B' || command == 'R') {
+            char mediaType;
             char genre;
-            int movieDetails;
-            ss >> genre;  // Get movie genre
-            ss >> customerID;  // Get the specific customer ID
+            ss >> customerID >> mediaType >> genre;  // Get customerID, media type (e.g., 'D'), and movie genre
+
+            // Now, read the remaining line as the movie details (title, director, etc.)
+            // todo: create temp movie object and search based on that movie
+            string movieDetails;
             getline(ss, movieDetails); // Get the movie details as a string
 
             // Borrowing or Returning the movie (Use movie ID to look up the movie)
@@ -219,7 +222,7 @@ void Store::borrowMovie(int customerID, char genre, string movieDetails) {
     } else if (genre == 'D') {  // Drama
         // movie = genreBST->search(movieDetails);  // movieDetails is a {director, title} pair
     } else if (genre == 'C') {  // Classic
-       //  movie = genreBST->search(movieDetails);  // movieDetails is a {month, year, actor} triplet
+        // movie = genreBST->search(movieDetails);  // movieDetails is a {month, year, actor} triplet
     }
 
     if (!movie) {
@@ -234,14 +237,14 @@ void Store::borrowMovie(int customerID, char genre, string movieDetails) {
     }
 
     // Step 5: Decrease stock and create a transaction
-    // todo
     movie->decreaseStock();  // Decrease stock by 1
-    Transaction* transaction = new Transaction(movie, "borrowed");
+    Transaction* transaction = new Transaction(movie, "Borrowed");
 
     // Step 6: Add transaction to the customer's history
     // todo
     customer->addTransaction(transaction);
 }
+
 void Store::returnMovie(int customerID, int movieID) {}
 
 // Display transaction history for a customer

@@ -3,6 +3,7 @@
 #define MY_EXECUTABLE_TRANSACTION_H
 
 #include <string>
+#include "movie.h"
 
 using namespace std;
 
@@ -10,24 +11,21 @@ using namespace std;
 class Transaction {
 protected:
     string type; // 'B' --> Borrow transaction, 'R' --> Return transaction
-    string mediaType; // currently only supports 'D' for DVD
+    Movie* movie;
 
 public:
-    // default constructor
-    Transaction();
+    // param constructor
+    Transaction(Movie* movie, const string& type);
     // destructor
     ~Transaction();
     // printing transaction details, must be implemented by derived classes to
 
     // getters
-    string getType();
-    string getMediaType();
-
-    // setters
-
+    string getType() const;
+    Movie* getMovie() const;
 
     // define how the transaction is printed.
-    virtual void printTransaction() = 0;
+      void displayTransaction() const;
 
 };
 

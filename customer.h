@@ -15,7 +15,8 @@ private:
     int customerID;  // store unique customer ID
     string firstName;  // first name of customer
     string lastName;  // last name of customer
-    Transaction* startTransaction; // Points to the LL for each customer's transaction
+    // Transaction* startTransaction;
+     vector<Transaction*> transactions;
 
 public:
     // constructor
@@ -31,7 +32,7 @@ public:
     string getFirst(); // Returns first name of customer.
     string getLast();  // Returns last name of customer.
 
-    // setters
+    void addTransaction(Transaction* transaction);
 
     // Displays the full transaction history for customer.
     void displayHistory() const;
