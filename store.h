@@ -30,7 +30,8 @@ struct LinkedListNode {
 class Store {
 protected:
     // unordered_map<int, Customer*> customers;   // Hashtable for storing customers
-    Customer* hashTable[MAX_CUSTOMERS];
+    LinkedListNode* customerTable[MAX_CUSTOMERS];
+    // Customer* hashTable[MAX_CUSTOMERS];
     // hashtable for movies, each bucket points to a BST
     // BST movieInventory;  // BST to store movies
     unordered_map<char, BST*> movieInventory; // Hash table storing BSTs for each genre
@@ -51,6 +52,10 @@ public:
 
     // Reads customer data from a given input file and adds customers to the hash table.
     void readCustomers(ifstream& file);
+    int hashFunction(int customerID);
+    void insertCustomer(Customer* customer);
+
+
     // Reads commands from an input file and processes them (borrow, return, history)
     void readCommands(ifstream& file);
 
@@ -59,7 +64,7 @@ public:
     // storing methods
 
     // manage transactions
-    void borrowMovie( int customerID, char mediaType, char genre, string movieDetails);
+    void borrowMovie(int customerID, char genre, string movieDetails);
     // void borrowMovie(int customerID, int movieID);
 
     void returnMovie(int customerID, int movieID);

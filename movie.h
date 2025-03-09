@@ -49,6 +49,10 @@ public:
     // setters
     void setStock(int stock);  // Set the stock of available copies
 
+    // increase and decrease stock;
+    void increaseStock();
+    void decreaseStock();
+
     // compare method for sorting purposes
     virtual int compare(const Movie& other) const = 0; // Pure virtual function
 
