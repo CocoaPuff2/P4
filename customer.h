@@ -9,7 +9,6 @@
 
 using namespace std;
 
-// Data Structure: Hashtable
 
 class Customer{
 private:
@@ -38,5 +37,6 @@ public:
     void displayHistory() const;
 
 };
+
 
 #endif //MY_EXECUTABLE_CUSTOMER_H

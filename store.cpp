@@ -11,7 +11,6 @@
 #include "classics.h"
 #include "comedy.h"
 #include "drama.h"
-#include "bst.cpp"
 #include "transaction.h"
 #include "borrowmedia.h"
 #include "returnmedia.h"
@@ -32,7 +31,7 @@ Store::~Store() {
 }
 
 // todo check factory method
-Movie* createMovie(const string& line) {
+Movie* Store::createMovie(const string& line) {
         stringstream ss(line);
         char genre;
         int stock;
@@ -41,69 +40,64 @@ Movie* createMovie(const string& line) {
         int year;
         char mediaType;
 
-        ss >> genre;  // input genre
-        ss.ignore();  // Skip comma after genre
+        ss >> genre;  // Read genre
+        ss.ignore();  // Skip comma and space
+
+        ss >> stock;  // Read stock
+        ss.ignore();  // Skip comma and space
+
+        getline(ss, director, ',');  // Read director
+        ss.ignore();  // Skip space
+
+        getline(ss, title, ',');  // Read title
+        ss.ignore();  // Skip space
+
+        mediaType = 'D';
 
         // Create movie objects based on genre
-        switch (genre) {
-            case 'F': {  // Comedy
-                if (getline(ss, director, ',') &&
-                    getline(ss, title, ',') &&
-                    ss >> year &&
-                    ss.ignore() &&
-                    ss >> stock &&
-                    ss.ignore() &&
-                    ss >> mediaType) {
-                    return new Comedy(genre, stock, director, title, year, mediaType);
-                }
-                break;
-            }
-            case 'D': {  // Drama
-                if (getline(ss, director, ',') &&
-                    getline(ss, title, ',') &&
-                    ss >> year &&
-                    ss.ignore() &&
-                    ss >> stock &&
-                    ss.ignore() &&
-                    ss >> mediaType) {
-                    return new Drama(genre, stock, director, title, year, mediaType);
-                }
-                break;
-            }
-            case 'C': {  // Classics
-                string majorActorFirstName, majorActorLastName;
-                int releaseMonth;
-                if (getline(ss, director, ',') &&
-                    getline(ss, title, ',') &&
-                    ss >> majorActorFirstName &&
-                    ss >> majorActorLastName &&
-                    ss >> releaseMonth &&
-                    ss >> year &&
-                    ss.ignore() &&
-                    ss >> stock &&
-                    ss.ignore() &&
-                    ss >> mediaType) {
-                    return new Classics(genre, stock, director, title, majorActorFirstName, majorActorLastName, releaseMonth, year, mediaType);
-                }
-                break;
-            }
-            default:
-                cout << "ERROR: " << genre << " Invalid Genre. Try Again." << endl;
-                return nullptr;
+    switch (genre) {
+        case 'F': {  // Comedy
+            ss >> year;
+            return new Comedy(genre, stock, director, title, year,  mediaType);
         }
+        case 'D': {  // Drama
+            ss >> year;
+            return new Drama(genre, stock, director, title, year,  mediaType);
+        }
+        case 'C': {  // Classics
+            string majorActorFirstName, majorActorLastName;
+            int releaseMonth;
 
-        return nullptr;  //  nullptr if invalid format
+            ss >> majorActorFirstName >> majorActorLastName;
+            ss >> releaseMonth >> year;
+
+            return new Classics(genre, stock, director, title, majorActorFirstName, majorActorLastName, releaseMonth, year,  mediaType);
+        }
+        default:
+            cout << "ERROR: " << genre << " Invalid Genre. Skipping line." << endl;
+            return nullptr;
+    }
 }
+
+
 // reading methods to read the files
 // Reads movie data from a given input file and populates the movie inventory.
 void Store::readMovie(ifstream& file){
     string line;
     while (getline(file, line)) {
-        // Parse  line to extract movie data
-        stringstream ss(line);
-        string title, director, genre;
-        int year, stock;
-        char mediaType;  // New member for media type (e.g., 'C' for Classics, 'D' for DVD)
+        Movie* movie = createMovie(line);  // Create movie using the factory method
+
+        if (movie) {
+            char genre = movie->getGenre();  // Get genre ('F', 'D', or 'C')
+
+            // If the BST for this genre doesn't exist, create it
+            if (movieInventory.find(genre) == movieInventory.end()) {
+                movieInventory[genre] = new BST();
+            }
+
+            // Insert the movie into the appropriate BST
+            movieInventory[genre]->insert(movie);
+        }
 
     }
 }
@@ -111,28 +105,65 @@ void Store::readMovie(ifstream& file){
 
 // Reads customer data from a given input file and adds customers to the hash table.
 void Store::readCustomers(ifstream& file) {}
+
 // Reads commands from an input file and processes them (borrow, return, history)
-void readCommands(ifstream& file) {}
+void Store::readCommands(ifstream& file) {
+    string line;
+    while (getline(file, line)) {
+        stringstream ss(line);
+        char command;
+        int customerID;
+        ss >> command;  // Read the command type
 
-// storing methods
+        if (command == 'B' || command == 'R') {
+            char genre;
+            int movieType;
 
-// manage transactions
-void borrowMovie(int customerID, int movieID) {}
-void returnMovie(int customerID, int movieID) {}
+            ss >> genre; // Get movie genre
+            ss >> customerID;  // Get the specific movie ID
 
-// Display transaction history for a customer
-void displayHistory(int customerID) {
-    // todo calls the customer display history
+            // Borrowing or Returning the movie (Use movie ID to look up the movie)
+            if (command == 'B') {
+                borrowMovie(customerID, movieType);
+            } else if (command == 'R') {
+                // returnMovie(customerID, movieID);
+            }
+
+        } else if (command == 'H') {
+            ss >> customerID;
+            displayHistory(customerID);
+        } else if (command == 'I') {
+
+            // TODO: Implement printing history for ALL customers, go thru HT
+
+        } else {
+            cout << "ERROR: " << command << " Invalid Genre. Try Again.\n" << endl;
+        }
+    }
 }
 
+
+// manage transactions
+void Store::borrowMovie(int customerID, char mediaType, char genre, string movieDetails) {
+    Movie* movie = nullptr;
+
+}
+void Store::returnMovie(int customerID, int movieID) {}
+
+// Display transaction history for a customer
+void Store::displayHistory(int customerID) {
+    //todo Implementation
+}
+
+
 // Add a new transaction to the transaction history
-void addTransaction(Transaction* transaction) {}
+void Store::addTransaction(Transaction* transaction) {}
 
 // Utility methods
 // Help the Store class interact with the movie and customer data structures
 //  BST for movies, Hashtable for customers
-Movie* findMovieByID(int movieID) { // Find a movie by its ID
+Movie* Store::findMovieByID(int movieID) { // Find a movie by its ID
 }
 
-Customer* findCustomerByID(int customerID) { // Find a customer by their ID
+Customer* Store::findCustomerByID(int customerID) { // Find a customer by their ID
 }

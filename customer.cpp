@@ -34,7 +34,7 @@ string Customer::getLast() { return lastName; }
 // Displays the full transaction history for customer.
 void Customer::displayHistory() const {
     cout << "History for " << firstName << " " << lastName << ": " << endl;
-    // todo
+    // todo: will go thru the LL of the customer and print transactions
     // Borrowed Harold and Maude by Hal Ashby
     // Returned Harold and Maude by Hal Ashby
 }

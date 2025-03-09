@@ -18,11 +18,23 @@
 #include "returnmedia.h"
 
 using namespace std;
+const int MAX_CUSTOMERS = 100;
+
+struct LinkedListNode {
+    LinkedListNode* next;
+    Customer* customer;
+    LinkedListNode(Customer* customer) : customer(customer), next(nullptr) {}
+};
+
+
 class Store {
 protected:
-    unordered_map<int, Customer*> customers;   // Hashtable for storing customers
+    // unordered_map<int, Customer*> customers;   // Hashtable for storing customers
+    Customer* hashTable[MAX_CUSTOMERS];
     // hashtable for movies, each bucket points to a BST
-    BST movieInventory;  // BST to store movies
+    // BST movieInventory;  // BST to store movies
+    unordered_map<char, BST*> movieInventory; // Hash table storing BSTs for each genre
+
 
 public:
     Store();
@@ -31,22 +43,29 @@ public:
     // reading methods to read the files
     // Reads movie data from a given input file and populates the movie inventory.
     void readMovie(ifstream& file);
+
+    // FACTORY METHOD to easily create and add new movies
+    // const string& line
+    Movie* createMovie(const string& line);
+
+
     // Reads customer data from a given input file and adds customers to the hash table.
     void readCustomers(ifstream& file);
     // Reads commands from an input file and processes them (borrow, return, history)
     void readCommands(ifstream& file);
 
-    // FACTORY METHOD to easily create and add new movies
-    // const string& line
-    Movie* createMovie(char genre, stringstream& ss);
+
 
     // storing methods
 
     // manage transactions
-    void borrowMovie(int customerID, int movieID);
+    void borrowMovie( int customerID, char mediaType, char genre, string movieDetails);
+    // void borrowMovie(int customerID, int movieID);
+
     void returnMovie(int customerID, int movieID);
 
     // Display transaction history for a customer
+    // todo will call the customer display
     void displayHistory(int customerID);
 
     // Add a new transaction to the transaction history
