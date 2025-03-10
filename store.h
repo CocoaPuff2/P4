@@ -49,6 +49,9 @@ public:
     // const string& line
     Movie* createMovie(const string& line);
 
+    // for the output file
+    void displayAllMovies() const;
+
 
     // Reads customer data from a given input file and adds customers to the hash table.
     void readCustomers(ifstream& file);

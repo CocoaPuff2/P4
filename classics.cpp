@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <fstream>
 #include "classics.h"
 #include "movie.h"
 
@@ -70,7 +71,17 @@ int Classics::compare(const Movie& other) const {
 
 
 void Classics::display() const {
-    cout << mediaType << " " << genre << " " << stock << " " << director << " " <<
-         title << " " << majorActorFirstName << " " << majorActorLastName << " " <<
-         releaseMonth << " " << year << endl;
+    /*
+    ofstream outFile("movies_output.txt", ios::app);  // Open the output file in append mode
+    if (outFile.is_open()) {
+        outFile << mediaType << " " << genre << " " << stock << " " << director << " " <<
+                title << " " << majorActorFirstName << " " << majorActorLastName << " " <<
+                releaseMonth << " " << year << endl;
+        outFile.close();  // Always close the file when done writing
+    } else {
+        cout << "Error opening the file for writing! (Classic movie)" << endl;
+    }
+    */
+    cout << genre << " " << mediaType <<  " " << title << " " << director << " " << majorActorFirstName << " " <<
+    majorActorLastName << " " << releaseMonth << " " << year << " " << stock << endl;
 }

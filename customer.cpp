@@ -48,8 +48,7 @@ void Customer::addTransaction(Transaction* transaction) {
 
 // Displays the full transaction history for customer.
 void Customer::displayHistory() const {
-    cout << "History for " << firstName << " " << lastName << ": " << endl;
-    // Optional method to display the transactions for a customer
+    // cout << "History for " << firstName << " " << lastName << ": " << endl;
      for (const auto& transaction : transactions) {
         // Assuming Transaction has a method to display its details
          transaction->displayTransaction();  // You may need to implement a display method in Transaction class

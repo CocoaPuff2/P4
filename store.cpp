@@ -101,6 +101,22 @@ Movie* Store::createMovie(const string& line) {
     }
 }
 
+void Store::displayAllMovies() const {
+    if (movieInventory.find('F') != movieInventory.end()) {
+        movieInventory.at('F')->inOrderTraversal();  // Inorder traversal for Comedy BST
+    }
+
+    // Display Drama movies (D)
+    if (movieInventory.find('D') != movieInventory.end()) {
+        movieInventory.at('D')->inOrderTraversal();  // Inorder traversal for Drama BST
+    }
+
+    // Display Classic movies (C)
+    if (movieInventory.find('C') != movieInventory.end()) {
+        movieInventory.at('C')->inOrderTraversal();  // Inorder traversal for Classic BST
+    }
+}
+
 
 int Store::hashFunction(int customerID) {
     return customerID % MAX_CUSTOMERS;
@@ -171,10 +187,33 @@ void Store::readCommands(ifstream& file) {
 
         } else if (command == 'H') {
             ss >> customerID;
-            displayHistory(customerID);
-        } else if (command == 'I') {
+            // Find customer in the hashtable
+            int hashKey = customerID % MAX_CUSTOMERS;  // Simple hash function
+            LinkedListNode* node = customerTable[hashKey];
 
-            // TODO: Implement printing history for ALL customers, go thru HT
+            while (node) {
+                if (node->customer->getCustomerID() == customerID) {
+                    cout << "History for " << node->customer->getFirst() << " "
+                         << node->customer->getLast() << ":" << endl;
+                    node->customer->displayHistory();  // Call displayHistory() method
+                    return;
+                }
+                node = node->next;
+            }
+
+            cout << "Customer " << customerID << " not found!" << endl;
+        } else if (command == 'I') {
+            // Print history for ALL customers in the hashtable
+            for (int i = 0; i < MAX_CUSTOMERS; i++) {
+                LinkedListNode* node = customerTable[i];
+
+                while (node) {
+                    cout << "History for " << node->customer->getFirst() << " "
+                         << node->customer->getLast() << ":" << endl;
+                    node->customer->displayHistory();  // Call displayHistory() method
+                    node = node->next;
+                }
+            }
 
         } else {
             cout << "ERROR: " << command << " Invalid Genre. Try Again.\n" << endl;
