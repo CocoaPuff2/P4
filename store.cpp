@@ -185,45 +185,13 @@ void Store::readCommands(ifstream& file) {
             }
 
         } else if (command == 'H') {
-            // ss >> customerID;
-            // displayHistory(customerID);
-            /*
-            // Find customer in the hashtable
-            int hashKey = hashFunction(customerID);
-            LinkedListNode* node = customerTable[hashKey];
-
-            while (node) {
-                if (node->customer->getCustomerID() == customerID) {
-                    cout << "History for " << node->customer->getFirst() << " "
-                         << node->customer->getLast() << ":" << endl;
-                    node->customer->displayHistory();  // Call displayHistory() method
-                    return;
-                }
-                node = node->next;
-            }
-
-            cout << "Customer " << customerID << " not found!" << endl;
-             */
+            ss >> customerID;
+            // TODO
         } else if (command == 'I') {
-            // Print history for ALL customers in the hashtable
-            printAllCustomerHistories();
+            displayAllMovies();
 
         } else {
             cout << "ERROR: " << command << " Invalid Genre. Try Again.\n" << endl;
-        }
-    }
-}
-
-void Store::printAllCustomerHistories() {
-    // Iterate over all customers in the customerTable (hash table)
-    for (int i = 0; i < MAX_CUSTOMERS; ++i) {
-        LinkedListNode* node = customerTable[i];  // Start at the head of the linked list at this index
-        while (node != nullptr) {
-            Customer* customer = node->customer;
-            cout << "History for " << customer->getFirst() << " "
-                 << customer->getLast() << ":" << endl;
-            customer->displayHistory();  // Assuming displayHistory prints the transaction history
-            node = node->next;
         }
     }
 }
@@ -303,7 +271,8 @@ void Store::borrowMovie(int customerID, char genre, string movieDetails) {
 
     // Step 5: Decrease stock and create a transaction
     movie->decreaseStock();  // Decrease stock by 1
-    Transaction* transaction = new Transaction(movie, "Borrowed");
+    // TODO: INSTEAD OF THE STRING, ADD THE SUBCLASS BORROW OR RETURN
+    Transaction* transaction = new BorrowMedia(movie);
 
     // Step 6: Add transaction to the customer's history
     customer->addTransaction(transaction);
@@ -381,7 +350,7 @@ void Store::returnMovie(int customerID, char genre, string movieDetails) {
 
     // Step 5: Increase stock and create a transaction
     movie->increaseStock();  // Increase stock by 1
-    Transaction* transaction = new Transaction(movie, "Returned");
+    Transaction* transaction = new ReturnMedia(movie);
 
     // Step 6: Add transaction to the customer's history
     customer->addTransaction(transaction);
@@ -404,7 +373,9 @@ void Store::displayHistory(int customerID) {
 
 
 // Add a new transaction to the transaction history
-void Store::addTransaction(Transaction* transaction) {}
+void Store::addTransaction(Transaction* transaction) {
+
+}
 
 // Utility methods
 // Help the Store class interact with the movie and customer data structures
