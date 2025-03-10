@@ -80,11 +80,11 @@ Movie* Store::createMovie(const string& line) {
     switch (genre) {
         case 'F': {  // Comedy
             ss >> year;
-            return new Comedy(genre, stock, director, title, year,  mediaType);
+            return new Comedy(genre, stock, director, title, year, mediaType);
         }
         case 'D': {  // Drama
             ss >> year;
-            return new Drama(genre, stock, director, title, year,  mediaType);
+            return new Drama(genre, stock, director, title, year, mediaType);
         }
         case 'C': {  // Classics
             string majorActorFirstName, majorActorLastName;
@@ -174,7 +174,6 @@ void Store::readCommands(ifstream& file) {
             ss >> customerID >> mediaType >> genre;  // Get customerID, media type (e.g., 'D'), and movie genre
 
             // Now, read the remaining line as the movie details (title, director, etc.)
-            // todo: create temp movie object and search based on that movie
             string movieDetails;
             getline(ss, movieDetails); // Get the movie details as a string
 
@@ -186,9 +185,11 @@ void Store::readCommands(ifstream& file) {
             }
 
         } else if (command == 'H') {
-            ss >> customerID;
+            // ss >> customerID;
+            // displayHistory(customerID);
+            /*
             // Find customer in the hashtable
-            int hashKey = customerID % MAX_CUSTOMERS;  // Simple hash function
+            int hashKey = hashFunction(customerID);
             LinkedListNode* node = customerTable[hashKey];
 
             while (node) {
@@ -202,18 +203,10 @@ void Store::readCommands(ifstream& file) {
             }
 
             cout << "Customer " << customerID << " not found!" << endl;
+             */
         } else if (command == 'I') {
             // Print history for ALL customers in the hashtable
-            for (int i = 0; i < MAX_CUSTOMERS; i++) {
-                LinkedListNode* node = customerTable[i];
-
-                while (node) {
-                    cout << "History for " << node->customer->getFirst() << " "
-                         << node->customer->getLast() << ":" << endl;
-                    node->customer->displayHistory();  // Call displayHistory() method
-                    node = node->next;
-                }
-            }
+            printAllCustomerHistories();
 
         } else {
             cout << "ERROR: " << command << " Invalid Genre. Try Again.\n" << endl;
@@ -221,9 +214,22 @@ void Store::readCommands(ifstream& file) {
     }
 }
 
+void Store::printAllCustomerHistories() {
+    // Iterate over all customers in the customerTable (hash table)
+    for (int i = 0; i < MAX_CUSTOMERS; ++i) {
+        LinkedListNode* node = customerTable[i];  // Start at the head of the linked list at this index
+        while (node != nullptr) {
+            Customer* customer = node->customer;
+            cout << "History for " << customer->getFirst() << " "
+                 << customer->getLast() << ":" << endl;
+            customer->displayHistory();  // Assuming displayHistory prints the transaction history
+            node = node->next;
+        }
+    }
+}
+
 
 // manage transactions
-//
 
 void Store::borrowMovie(int customerID, char genre, string movieDetails) {
     // 1. Look up movie by genre
@@ -383,7 +389,17 @@ void Store::returnMovie(int customerID, char genre, string movieDetails) {
 
 // Display transaction history for a customer
 void Store::displayHistory(int customerID) {
-    //todo Implementation
+    // Search for the customer in the hash table or database
+    Customer* customer = findCustomerByID(customerID);  // Assuming findCustomerByID is implemented
+
+    // If customer exists, display their transaction history
+    if (customer != nullptr) {
+        cout << "Transaction history for " << customer->getFullName() << " (ID: " << customer->getCustomerID() << "):\n";
+        customer->displayHistory();  // Call the displayHistory method of the Customer class
+    } else {
+        // If customer is not found, print an error message
+        cout << "Customer  " << customerID << " not found." << endl;
+    }
 }
 
 

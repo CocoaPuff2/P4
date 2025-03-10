@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "customer.h"
 
 using namespace std;
@@ -15,8 +16,8 @@ Customer::Customer() {
 
 // param constructor
 
-Customer::Customer(int id, const string& first, const string& last)
-        : customerID(id), firstName(first), lastName(last), transactions() {  // Initialize an empty vector
+Customer::Customer(int id, const string& last, const string& first)
+        : customerID(id), lastName(last), firstName(first), transactions() {  // Initialize an empty vector
     // transactions() automatically invoked to initialize the vector as empty.
 }
 
@@ -48,9 +49,15 @@ void Customer::addTransaction(Transaction* transaction) {
 
 // Displays the full transaction history for customer.
 void Customer::displayHistory() const {
-    // cout << "History for " << firstName << " " << lastName << ": " << endl;
+    //cout << "History for " << firstName << " " << lastName << ": " << endl;
+    // Sort transactions based on the genre and movie-specific sorting rules
+
      for (const auto& transaction : transactions) {
-        // Assuming Transaction has a method to display its details
-         transaction->displayTransaction();  // You may need to implement a display method in Transaction class
+         if (transaction) {
+             transaction->displayTransaction();
+         } else {
+             std::cout << "Invalid transaction." << std::endl;
+         }
  }
+
 }

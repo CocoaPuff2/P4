@@ -22,7 +22,7 @@ public:
     // constructor
     Customer();
     // param constructor
-    Customer(int customerID, const string& firstName, const string& lastName);
+    Customer(int customerID, const string& lastName, const string& firstName);
     // destructor
     ~Customer();
 

@@ -5,7 +5,7 @@ using namespace std;
 
 int main() {
     // Print initial message
-    cout << "\nTesting Movies" << endl;
+    cout << "\nTesting Movies and Customers" << endl;
 
     // Create a Store object to manage the movies
     Store store;
@@ -30,6 +30,29 @@ int main() {
 
     // Display all movies (store's displayAllMovies method)
     store.displayAllMovies();  // This will call display() for each movie
+    outputFile.close(); // Close the output file after writing
+
+    // Open the customers' file
+    ifstream customerFile("data4customers.txt");
+    if (!customerFile) {
+        cout << "Error opening the customers file!" << endl;
+        return 1;
+    }
+
+    // Read customer data and store it in the hash table
+    store.readCustomers(customerFile);
+    customerFile.close();  // Close the customer file after reading
+
+    // Open the commands file
+    ifstream commandsFile("data4commands.txt");
+    if (!commandsFile) {
+        cout << "Error opening the commands file!" << endl;
+        return 1;
+    }
+
+    // Read command data and process it
+    store.readCommands(commandsFile);
+    commandsFile.close();  // Close the commands file after reading
 
     return 0;
 

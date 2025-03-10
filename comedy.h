@@ -9,7 +9,10 @@ using namespace std;
 
 class Comedy : public Movie {
 public:
-    Comedy(char genre, int stock, string director, string title, int year, char mediaType);
+     Comedy(char genre, int stock, string director, string title, int year, char mediaType);
+    // Comedy(char genre, int stock, string director, string title, int year, char mediaType,
+          //  vector<Transaction*> transactions);
+
     ~Comedy();
     // specifically for comedies, overrides the media version
     // const so that it doesn't modify the data, only reads it

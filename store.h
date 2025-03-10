@@ -61,6 +61,7 @@ public:
 
     // Reads commands from an input file and processes them (borrow, return, history)
     void readCommands(ifstream& file);
+    void printAllCustomerHistories();
 
 
 

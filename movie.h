@@ -4,6 +4,7 @@
 
 #include <string>
 #include <iostream>
+#include <vector>
 using namespace std;
 
 /*
@@ -24,6 +25,7 @@ protected:
     string title; // title of the movie
     int year;  // release year of the movie
     char mediaType; // currently only supports 'D' for DVD
+    //vector<Transaction*> transactions;
 
 public:
     // default constructor
@@ -34,6 +36,10 @@ public:
     // F, 10, Nora Ephron, Sleepless in Seattle, 1993
     // D, 10, Barry Levinson, Good Morning Vietnam, 1988
     Movie(char genre, int stock, const string& director, const string& title, int year, char mediaType);
+    /*
+    Movie(char genre, int stock, const string& director, const string& title, int year,
+          char mediaType, vector<Transaction*> transactions);
+          */
     // destructor
     virtual ~Movie();
 
