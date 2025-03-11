@@ -27,10 +27,10 @@ int Drama::compare(const Movie& other) const {
 
     if (title < other.getTitle()) {
         return -1;
-    } else if (title < other.getTitle()) {
+    } else if (title > other.getTitle()) {
         return 1;
     } else {
-        return 1;
+        return 0;
     }
 }
 

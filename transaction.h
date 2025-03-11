@@ -10,12 +10,13 @@ using namespace std;
 // Transaction is an abstract class
 class Transaction {
 protected:
-    Transaction* type; // 'Borrowed' --> Borrow transaction, 'Return' --> Return transaction
+    // Transaction* type; // 'Borrowed' --> Borrow transaction, 'Return' --> Return transaction
+    int customerID;
     Movie* movie;
 
 public:
     // param constructor
-    Transaction(Movie* movie);
+    Transaction(Movie* movie, int customerID);
     // destructor
     virtual ~Transaction();
     //  virtual ~Transaction() = default;
@@ -23,6 +24,7 @@ public:
 
     // getters
     Movie* getMovie() const;
+    int getCustomerID() const;
 
     // define how the transaction is printed.
     virtual void displayTransaction() const = 0;

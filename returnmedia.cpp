@@ -1,8 +1,14 @@
 #include "returnmedia.h"
 
 // Constructor: initializes the ReturnMedia transaction with a movie
+/*
 ReturnMedia::ReturnMedia(Movie* movie)
-        : Transaction(movie) {  // Passes the movie and the type (this for "returned")
+        : Transaction(movie) {
+}
+ */
+
+ReturnMedia::ReturnMedia(Movie* movie, int customerID)
+        : Transaction(movie, customerID) {  // Passes movie and customerID to the base class
 }
 
 // Implementation of the displayTransaction function

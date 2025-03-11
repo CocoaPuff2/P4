@@ -8,7 +8,8 @@
 class ReturnMedia : public Transaction {
 public:
     // Constructor: initializes the ReturnMedia transaction with a movie
-    ReturnMedia(Movie* movie);
+   // ReturnMedia(Movie* movie);
+    ReturnMedia(Movie* movie, int customerID);
 
     // Override the displayTransaction function to display the returning transaction details
     void displayTransaction() const override;

@@ -37,10 +37,10 @@ int Comedy::compare(const Movie& other) const {
     }
     if (year < other.getYear()) {
         return -1;
-    } else if (year < other.getYear()) {
+    } else if (year > other.getYear()) {
         return 1;
     } else {
-        return 1;
+        return 0;
     }
 }
 

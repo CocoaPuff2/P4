@@ -41,7 +41,8 @@ int main() {
     customerFile.close();  // Close the customer file after reading
 
     // Open the commands file
-    ifstream commandsFile("data4commands.txt");
+     ifstream commandsFile("data4commands.txt");
+    // ifstream commandsFile("movies_output.txt");
     if (!commandsFile) {
         cout << "Error opening the commands file!" << endl;
         return 1;

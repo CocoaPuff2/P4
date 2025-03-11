@@ -37,7 +37,9 @@ Customer::~Customer() {
 }
 
 // getters
-int Customer::getCustomerID() const { return customerID; }
+int Customer::getCustomerID() const {
+    return customerID;
+}
 string Customer::getFullName() { return firstName + " " + lastName; }
 string Customer::getFirst() { return firstName; }
 string Customer::getLast() { return lastName; }
@@ -49,7 +51,7 @@ void Customer::addTransaction(Transaction* transaction) {
 
 // Displays the full transaction history for customer.
 void Customer::displayHistory() const {
-    //cout << "History for " << firstName << " " << lastName << ": " << endl;
+    cout << "History for " << firstName << " " << lastName << ": \n" << endl;
     // Sort transactions based on the genre and movie-specific sorting rules
 
      for (const auto& transaction : transactions) {

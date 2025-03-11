@@ -8,7 +8,8 @@
 class BorrowMedia : public Transaction {
 public:
     // Constructor: initializes the BorrowMedia transaction with a movie
-    BorrowMedia(Movie* movie);
+    // BorrowMedia(Movie* movie);
+    BorrowMedia(Movie* movie, int customerID);
 
     // Override the displayTransaction function to display the borrowing transaction details
     void displayTransaction() const override;

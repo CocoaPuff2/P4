@@ -161,6 +161,7 @@ void Store::insertCustomer(Customer* customer) {
 
 // Reads commands from an input file and processes them (borrow, return, history)
 void Store::readCommands(ifstream& file) {
+    cout << "YAY" << endl;
     string line;
     while (getline(file, line)) {
         stringstream ss(line);
@@ -181,12 +182,28 @@ void Store::readCommands(ifstream& file) {
             if (command == 'B') {
                 borrowMovie(customerID, genre, movieDetails);
             } else if (command == 'R') {
-                // returnMovie(customerID, movieID);
+                 returnMovie(customerID, genre, movieDetails);
             }
 
         } else if (command == 'H') {
             ss >> customerID;
-            // TODO
+            // TODO go thru the hashtable of customers, find the customer id that matches with the
+            //  input for customerID and print that customer's transactions vector using displayTransactions
+            // Step 1: Use the hash function to find the index in the customerTable array
+            int index = hashFunction(customerID);
+
+            // Step 2: Traverse the linked list at the corresponding index
+            LinkedListNode* current = customerTable[index];
+
+            // Step 3: Search for the customer with the matching customerID
+            while (current != nullptr) {
+                if (current->customer->getCustomerID() == customerID) {  // Found the customer
+                    current->customer->displayHistory();  // Call displayHistory() on the customer to print their transactions
+                    break;
+                }
+                current = current->next;  // Move to the next customer in the linked list
+            }
+
         } else if (command == 'I') {
             displayAllMovies();
 
@@ -198,11 +215,10 @@ void Store::readCommands(ifstream& file) {
 
 
 // manage transactions
-
 void Store::borrowMovie(int customerID, char genre, string movieDetails) {
     // 1. Look up movie by genre
     if (movieInventory.find(genre) == movieInventory.end()) {
-        cout << "Genre not found!" << endl;
+        cout << "ERROR: " << genre << " Invalid Genre. Try Again" << endl;
         return;
     }
 
@@ -211,9 +227,13 @@ void Store::borrowMovie(int customerID, char genre, string movieDetails) {
     int hashKey = hashFunction(customerID);  // Get  bucket index
     LinkedListNode* node = customerTable[hashKey];
 
+    if (!node) {
+       return;
+    }
+
     // Traverse linked list to find the customer
     while (node) {
-        if (node->customer->getCustomerID() == customerID) {
+        if (node->customer && node->customer->getCustomerID() == customerID) {
             customer = node->customer;
             break;
         }
@@ -231,31 +251,73 @@ void Store::borrowMovie(int customerID, char genre, string movieDetails) {
 
     // Use search method to find the movie based on the movieDetails
     if (genre == 'F') {  // Comedy
-        string title = movieDetails.substr(0, movieDetails.find(' '));
-        int year = stoi(movieDetails.substr(movieDetails.find(' ') + 1));
-        Movie* tempMovie = new Comedy('F', 0, "", title, year, 'D');  // Creating a temp Movie object for Comedy
+        size_t startPos = movieDetails.find_first_not_of(" ");  // Find the first non-space character
+        movieDetails = movieDetails.substr(startPos);  // Remove leading spaces
+
+        // Find the position of the comma
+        size_t commaPos = movieDetails.find(',');
+
+        // Extract the title (everything before the comma)
+        string title = movieDetails.substr(0, commaPos);
+
+        // Extract the year (everything after the comma)
+        int year = stoi(movieDetails.substr(commaPos + 2));  // Skip the comma and the space after it
+
+        // Create a temp Movie object for Comedy
+        Movie* tempMovie = new Comedy('F', 0, "", title, year, 'D');
         movie = genreBST->search(tempMovie);
         delete tempMovie;  // Clean up temporary Movie object
-        // movie = genreBST->search(movieDetails);  // movieDetails is a {title, year} pair
     } else if (genre == 'D') {  // Drama
-        string director = movieDetails.substr(0, movieDetails.find(' '));
-        string title = movieDetails.substr(movieDetails.find(' ') + 1);
-        Movie* tempMovie = new Drama('D', 0, director, title, 0, 'D');  // Creating a temp Movie object for Drama
-        movie = genreBST->search(tempMovie);
-        delete tempMovie;
-        // movie = genreBST->search(movieDetails);  // movieDetails is a {director, title} pair
-    } else if (genre == 'C') {  // Classic
-        string month = movieDetails.substr(0, movieDetails.find(' '));
-        string remaining = movieDetails.substr(movieDetails.find(' ') + 1);
-        int year = stoi(remaining.substr(0, remaining.find(' ')));
-        string actor = remaining.substr(remaining.find(' ') + 1);
-        string firstName = actor.substr(0, actor.find(' '));
-        string lastName = actor.substr(actor.find(' ') + 1);
+        size_t commaPos = movieDetails.find(", ");  // Find the comma-space separator
 
-        Movie* tempMovie = new Classics('C', 0, "", "", firstName, lastName, stoi(month), year, 'D');  // Creating a temp Movie object for Classic
+        // Extract director (everything before the comma)
+        string director = movieDetails.substr(0, commaPos);
+
+        // Extract title (everything after the comma + space)
+        string title = movieDetails.substr(commaPos + 2);
+
+        // Remove any trailing '\r' or comma from the title
+        while (!title.empty() && (title.back() == '\r' || title.back() == ',')) {
+            title.pop_back();  // Remove last character if it's '\r' or ','
+        }
+
+        // Create a temp Movie object for Drama
+        Movie* tempMovie = new Drama('D', 0, director, title, 0, 'D');
         movie = genreBST->search(tempMovie);
         delete tempMovie;
-        // movie = genreBST->search(movieDetails);  // movieDetails is a {month, year, actor} triplet
+    } else if (genre == 'C') {  // Classic
+        // Trim any leading spaces before the month
+        size_t startPos = movieDetails.find_first_not_of(" ");
+        movieDetails = movieDetails.substr(startPos);
+
+        // Extract the month (first space-separated value)
+        size_t firstSpace = movieDetails.find(' ');
+        string month = movieDetails.substr(0, firstSpace);
+
+        // Extract the remaining part after the month
+        string remaining = movieDetails.substr(firstSpace + 1);
+
+        // Extract the year (next space-separated value)
+        size_t secondSpace = remaining.find(' ');
+        int year = stoi(remaining.substr(0, secondSpace));
+
+        // Extract the actor's full name (firstName + lastName)
+        string actor = remaining.substr(secondSpace + 1);
+
+        // Find the space between first and last name
+        size_t nameSpace = actor.find(' ');
+        string firstName = actor.substr(0, nameSpace);
+        string lastName = actor.substr(nameSpace + 1);
+
+        // Remove any trailing '\r' from the last name
+        if (!lastName.empty() && lastName.back() == '\r') {
+            lastName.pop_back();
+        }
+
+        // Create a temp Movie object for Classics
+        Movie* tempMovie = new Classics('C', 0, "", "", firstName, lastName, stoi(month), year, 'D');
+        movie = genreBST->search(tempMovie);
+        delete tempMovie;
     }
 
     if (!movie) {
@@ -271,17 +333,17 @@ void Store::borrowMovie(int customerID, char genre, string movieDetails) {
 
     // Step 5: Decrease stock and create a transaction
     movie->decreaseStock();  // Decrease stock by 1
-    // TODO: INSTEAD OF THE STRING, ADD THE SUBCLASS BORROW OR RETURN
-    Transaction* transaction = new BorrowMedia(movie);
+    Transaction* transaction = new BorrowMedia(movie, customerID);
 
     // Step 6: Add transaction to the customer's history
+    cout << "borrow add " << movie->getTitle() << endl;
     customer->addTransaction(transaction);
 }
 
 void Store::returnMovie(int customerID, char genre, string movieDetails) {
     // 1. Look up movie by genre
     if (movieInventory.find(genre) == movieInventory.end()) {
-        cout << "Genre not found!" << endl;
+        cout << "ERROR: " << genre << " Invalid Genre. Try Again" << endl;
         return;
     }
 
@@ -310,31 +372,73 @@ void Store::returnMovie(int customerID, char genre, string movieDetails) {
 
     // Use search method to find the movie based on the movieDetails
     if (genre == 'F') {  // Comedy
-        string title = movieDetails.substr(0, movieDetails.find(' '));
-        int year = stoi(movieDetails.substr(movieDetails.find(' ') + 1));
-        Movie* tempMovie = new Comedy('F', 0, "", title, year, 'D');  // Creating a temp Movie object for Comedy
+        size_t startPos = movieDetails.find_first_not_of(" ");  // Find the first non-space character
+        movieDetails = movieDetails.substr(startPos);  // Remove leading spaces
+
+        // Find the position of the comma
+        size_t commaPos = movieDetails.find(',');
+
+        // Extract the title (everything before the comma)
+        string title = movieDetails.substr(0, commaPos);
+
+        // Extract the year (everything after the comma)
+        int year = stoi(movieDetails.substr(commaPos + 2));  // Skip the comma and the space after it
+
+        // Create a temp Movie object for Comedy
+        Movie* tempMovie = new Comedy('F', 0, "", title, year, 'D');
         movie = genreBST->search(tempMovie);
         delete tempMovie;  // Clean up temporary Movie object
-        // movie = genreBST->search(movieDetails);  // movieDetails is a {title, year} pair
     } else if (genre == 'D') {  // Drama
-        string director = movieDetails.substr(0, movieDetails.find(' '));
-        string title = movieDetails.substr(movieDetails.find(' ') + 1);
-        Movie* tempMovie = new Drama('D', 0, director, title, 0, 'D');  // Creating a temp Movie object for Drama
-        movie = genreBST->search(tempMovie);
-        delete tempMovie;
-        // movie = genreBST->search(movieDetails);  // movieDetails is a {director, title} pair
-    } else if (genre == 'C') {  // Classic
-        string month = movieDetails.substr(0, movieDetails.find(' '));
-        string remaining = movieDetails.substr(movieDetails.find(' ') + 1);
-        int year = stoi(remaining.substr(0, remaining.find(' ')));
-        string actor = remaining.substr(remaining.find(' ') + 1);
-        string firstName = actor.substr(0, actor.find(' '));
-        string lastName = actor.substr(actor.find(' ') + 1);
+        size_t commaPos = movieDetails.find(", ");  // Find the comma-space separator
 
-        Movie* tempMovie = new Classics('C', 0, "", "", firstName, lastName, stoi(month), year, 'D');  // Creating a temp Movie object for Classic
+        // Extract director (everything before the comma)
+        string director = movieDetails.substr(0, commaPos);
+
+        // Extract title (everything after the comma + space)
+        string title = movieDetails.substr(commaPos + 2);
+
+        // Remove any trailing '\r' or comma from the title
+        while (!title.empty() && (title.back() == '\r' || title.back() == ',')) {
+            title.pop_back();  // Remove last character if it's '\r' or ','
+        }
+
+        // Create a temp Movie object for Drama
+        Movie* tempMovie = new Drama('D', 0, director, title, 0, 'D');
         movie = genreBST->search(tempMovie);
         delete tempMovie;
-        // movie = genreBST->search(movieDetails);  // movieDetails is a {month, year, actor} triplet
+    } else if (genre == 'C') {  // Classic
+        // Trim any leading spaces before the month
+        size_t startPos = movieDetails.find_first_not_of(" ");
+        movieDetails = movieDetails.substr(startPos);
+
+        // Extract the month (first space-separated value)
+        size_t firstSpace = movieDetails.find(' ');
+        string month = movieDetails.substr(0, firstSpace);
+
+        // Extract the remaining part after the month
+        string remaining = movieDetails.substr(firstSpace + 1);
+
+        // Extract the year (next space-separated value)
+        size_t secondSpace = remaining.find(' ');
+        int year = stoi(remaining.substr(0, secondSpace));
+
+        // Extract the actor's full name (firstName + lastName)
+        string actor = remaining.substr(secondSpace + 1);
+
+        // Find the space between first and last name
+        size_t nameSpace = actor.find(' ');
+        string firstName = actor.substr(0, nameSpace);
+        string lastName = actor.substr(nameSpace + 1);
+
+        // Remove any trailing '\r' from the last name
+        if (!lastName.empty() && lastName.back() == '\r') {
+            lastName.pop_back();
+        }
+
+        // Create a temp Movie object for Classics
+        Movie* tempMovie = new Classics('C', 0, "", "", firstName, lastName, stoi(month), year, 'D');
+        movie = genreBST->search(tempMovie);
+        delete tempMovie;
     }
 
     if (!movie) {
@@ -350,9 +454,10 @@ void Store::returnMovie(int customerID, char genre, string movieDetails) {
 
     // Step 5: Increase stock and create a transaction
     movie->increaseStock();  // Increase stock by 1
-    Transaction* transaction = new ReturnMedia(movie);
+    Transaction* transaction = new ReturnMedia(movie, customerID);
 
     // Step 6: Add transaction to the customer's history
+    cout << "return add " << movie->getTitle() << endl;
     customer->addTransaction(transaction);
 }
 
@@ -374,7 +479,19 @@ void Store::displayHistory(int customerID) {
 
 // Add a new transaction to the transaction history
 void Store::addTransaction(Transaction* transaction) {
+    // Step 1: Get the customer ID from the transaction
+    int customerID = transaction->getCustomerID();
+    cout << "Hooooo" << endl;
 
+    // Step 2: Find the customer using the customer ID
+    Customer* customer = findCustomerByID(customerID);
+
+    // Step 3: If customer is found, add the transaction to the customer's history
+    if (customer) {
+        customer->addTransaction(transaction);  // Calls the Customer's addTransaction method
+    } else {
+        cout << "Customer with ID " << customerID << " not found." << endl;
+    }
 }
 
 // Utility methods
