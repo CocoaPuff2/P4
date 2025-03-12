@@ -20,7 +20,9 @@ using namespace std;
 // todo: need to print all F, D, then C after putting them in BST
 
 Store::Store() {
-
+    for (int i = 0; i < MAX_CUSTOMERS; i++) {
+        customerTable[i] = nullptr;
+    }
 }
 Store::~Store() {
         /*
@@ -102,19 +104,31 @@ Movie* Store::createMovie(const string& line) {
 }
 
 void Store::displayAllMovies() const {
+    cout << "-----------------------------------------------------------------------------------\n"
+            "----------- "<< endl;
+
     if (movieInventory.find('F') != movieInventory.end()) {
         movieInventory.at('F')->inOrderTraversal();  // Inorder traversal for Comedy BST
     }
+
+    cout << "-----------------------------------------------------------------------------------\n"
+            "----------- "<< endl;
 
     // Display Drama movies (D)
     if (movieInventory.find('D') != movieInventory.end()) {
         movieInventory.at('D')->inOrderTraversal();  // Inorder traversal for Drama BST
     }
 
+    cout << "-----------------------------------------------------------------------------------\n"
+            "----------- "<< endl;
+
     // Display Classic movies (C)
     if (movieInventory.find('C') != movieInventory.end()) {
         movieInventory.at('C')->inOrderTraversal();  // Inorder traversal for Classic BST
     }
+
+    cout << "-----------------------------------------------------------------------------------\n"
+            "----------- "<< endl;
 }
 
 
@@ -161,7 +175,7 @@ void Store::insertCustomer(Customer* customer) {
 
 // Reads commands from an input file and processes them (borrow, return, history)
 void Store::readCommands(ifstream& file) {
-    cout << "YAY" << endl;
+    cout << " " << endl;
     string line;
     while (getline(file, line)) {
         stringstream ss(line);
@@ -228,6 +242,7 @@ void Store::borrowMovie(int customerID, char genre, string movieDetails) {
     LinkedListNode* node = customerTable[hashKey];
 
     if (!node) {
+        cout << "Borrow Transaction Failed -- Customer " << customerID << " does not exist." << endl;
        return;
     }
 
@@ -336,7 +351,7 @@ void Store::borrowMovie(int customerID, char genre, string movieDetails) {
     Transaction* transaction = new BorrowMedia(movie, customerID);
 
     // Step 6: Add transaction to the customer's history
-    cout << "borrow add " << movie->getTitle() << endl;
+    //cout << "borrow add " << movie->getTitle() << endl;
     customer->addTransaction(transaction);
 }
 
@@ -351,6 +366,11 @@ void Store::returnMovie(int customerID, char genre, string movieDetails) {
     Customer* customer = nullptr;
     int hashKey = hashFunction(customerID);  // Get  bucket index
     LinkedListNode* node = customerTable[hashKey];
+
+    if (!node) {
+        cout << "Borrow Transaction Failed -- Customer " << customerID << " does not exist." << endl;
+        return;
+    }
 
     // Traverse linked list to find the customer
     while (node) {
@@ -457,7 +477,7 @@ void Store::returnMovie(int customerID, char genre, string movieDetails) {
     Transaction* transaction = new ReturnMedia(movie, customerID);
 
     // Step 6: Add transaction to the customer's history
-    cout << "return add " << movie->getTitle() << endl;
+    // cout << "return add " << movie->getTitle() << endl;
     customer->addTransaction(transaction);
 }
 

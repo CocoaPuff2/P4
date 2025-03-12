@@ -35,9 +35,7 @@ string Classics::getMajorActorLastName() const { return majorActorLastName; }
 int Classics::getReleaseMonth() const { return releaseMonth; }
 
 // classics (‘C’) are sorted by Release date, then Major actor
-// todo see how to sort
 int Classics::compare(const Movie& other) const {
-    // todo to be safe
     // attempt to cast 'other' to a 'Classics' object
     const Classics* otherClassics = dynamic_cast<const Classics*>(&other);
     if (!otherClassics) {
