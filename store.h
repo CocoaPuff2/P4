@@ -62,6 +62,7 @@ public:
     // Reads commands from an input file and processes them (borrow, return, history)
     void readCommands(ifstream& file);
     void printAllCustomerHistories();
+    bool checkMedia(char mediaType);
 
 
 
@@ -83,8 +84,9 @@ public:
     // Utility methods
     //  Help the Store class interact with the movie and customer data structures
     //  BST for movies, Hashtable for customers
-    Movie* findMovieByID(int movieID); // Find a movie by its ID
-    Customer* findCustomerByID(int customerID); // Find a customer by their ID
+
+    // Movie* findMovieByID(int movieID); // Find a movie by its ID
+     Customer* findCustomerByID(int customerID);
 };
 
 

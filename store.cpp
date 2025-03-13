@@ -188,6 +188,13 @@ void Store::readCommands(ifstream& file) {
             char genre;
             ss >> customerID >> mediaType >> genre;  // Get customerID, media type (e.g., 'D'), and movie genre
 
+            // currently only the mediaType 'D' is accepted
+            if (!checkMedia(mediaType)) {
+                cout << "ERROR: " << mediaType << " Invalid Media Type. Try Again." << endl;
+                file.ignore(numeric_limits<streamsize>::max(), '\n');
+                continue;
+            }
+
             // Now, read the remaining line as the movie details (title, director, etc.)
             string movieDetails;
             getline(ss, movieDetails); // Get the movie details as a string
@@ -223,6 +230,8 @@ void Store::readCommands(ifstream& file) {
 
         } else {
             cout << "ERROR: " << command << " Invalid Genre. Try Again.\n" << endl;
+            file.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
         }
     }
 }
@@ -515,10 +524,13 @@ void Store::addTransaction(Transaction* transaction) {
 }
 
 // Utility methods
-// Help the Store class interact with the movie and customer data structures
-//  BST for movies, Hashtable for customers
-Movie* Store::findMovieByID(int movieID) { // Find a movie by its ID
+// Would be altered if more mediaTypes were added
+bool Store::checkMedia(char mediaType) {  // Definition
+    return mediaType == 'D'; // Example logic
 }
+
+// todo add a checkGenre method?
 
 Customer* Store::findCustomerByID(int customerID) { // Find a customer by their ID
 }
+

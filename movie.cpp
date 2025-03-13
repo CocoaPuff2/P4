@@ -40,14 +40,15 @@ char Movie::getMediaType() const { return mediaType; }
 void Movie::setStock(int newStock) { stock = newStock;}
 
 void Movie::increaseStock() {
+    ++stock;
+
+}
+void Movie::decreaseStock() {
     if (stock > 0) {
         --stock;
     } else {
         std::cout << "Borrow Transaction Failed -- Not enough in the Stock." << std::endl;
     }
-}
-void Movie::decreaseStock() {
-    ++stock;
 }
 
 

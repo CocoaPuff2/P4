@@ -1,4 +1,4 @@
-B 8000 D C 3 1971 Ruth Gordon
+B 1000 D C 5 1940 Cary Grant
 X
 B 1111 D C 9 1938 Cary Grant
 B 5000 D C 3 1971 Ruth Gordon
@@ -24,8 +24,4 @@ B 3333 D C 3 1971 Ruth Gordon
 B 7777 D C 3 1971 Ruth Gordon
 B 1000 D D Steven Spielberg, Bogus Title,
 I
-H 1000
-H 1111
-H 5000
-H 8000
-H 8888
+
