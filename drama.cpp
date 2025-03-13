@@ -35,6 +35,6 @@ int Drama::compare(const Movie& other) const {
 }
 
 void Drama::display() const {
-    cout << genre << "   " << mediaType <<  "   " << title << "   " << director << "   " <<
-         year << "   " << stock << endl;
+    cout << genre << " " << mediaType <<  " " << title << " " << director << " " <<
+         year << " " << stock << endl;
 }

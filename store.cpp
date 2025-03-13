@@ -17,7 +17,6 @@
 
 
 using namespace std;
-// todo: need to print all F, D, then C after putting them in BST
 
 Store::Store() {
     for (int i = 0; i < MAX_CUSTOMERS; i++) {
@@ -25,12 +24,28 @@ Store::Store() {
     }
 }
 Store::~Store() {
-        /*
-        for (Movie* movie : movies) {
-            delete movie; // Deletes each dynamically allocated movie
+    // Delete all customers in the customerTable
+    for (int i = 0; i < MAX_CUSTOMERS; i++) {
+        LinkedListNode* current = customerTable[i];
+        while (current != nullptr) {
+            LinkedListNode* temp = current;
+            current = current->next;
+            delete temp->customer;  // Delete the customer object
+            delete temp;            // Delete the node
         }
-         */
+    }
+
+    // Delete all movies in the movieInventory
+    for (auto& genreEntry : movieInventory) {
+        BST* bst = genreEntry.second;  // Get the BST for each genre
+        if (bst != nullptr) {
+            bst->clear();  // Assuming BST has a clear method to delete all Movie objects
+            delete bst;    // Delete the BST itself
+        }
+    }
 }
+
+
 
 // reading methods to read the files
 // Reads movie data from a given input file and populates the movie inventory.
@@ -77,6 +92,8 @@ Movie* Store::createMovie(const string& line) {
 
         mediaType = 'D';
 
+
+
         // Create movie objects based on genre
     switch (genre) {
         case 'F': {  // Comedy
@@ -97,7 +114,7 @@ Movie* Store::createMovie(const string& line) {
             return new Classics(genre, stock, director, title, majorActorFirstName, majorActorLastName, releaseMonth, year,  mediaType);
         }
         default:
-            cout << "ERROR: " << genre << " Invalid Genre. Skipping line." << endl;
+            cout << "ERROR: " << genre << " Invalid Genre. Try Again." << endl;
             return nullptr;
     }
 }
@@ -106,7 +123,6 @@ void Store::displayAllMovies() const {
     cout << "-----------------------------------------------------------------------------------\n"
             "----------- "<< endl;
     cout << "Comedies: " << endl;
-    cout << endl;
     cout << "Genre  " << "Media   " << "Title   " << "Director   " << "Year   " << "Stock   " << endl;
 
     if (movieInventory.find('F') != movieInventory.end()) {
@@ -116,7 +132,6 @@ void Store::displayAllMovies() const {
     cout << "-----------------------------------------------------------------------------------\n"
             "----------- "<< endl;
     cout << "Dramas: " << endl;
-    cout << endl;
     cout << "Genre  " << "Media   " << "Title   " << "Director   " << "Year   " << "Stock   " << endl;
 
     // Display Drama movies (D)
@@ -127,7 +142,6 @@ void Store::displayAllMovies() const {
     cout << "-----------------------------------------------------------------------------------\n"
             "----------- "<< endl;
     cout << "Classics: " << endl;
-    cout << endl;
     cout << "Genre  " << "Media   " << "Title   " << "Director   " << "Month   "
     << "Year   " << "Stock   " << endl;
 

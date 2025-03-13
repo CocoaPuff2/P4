@@ -40,6 +40,7 @@ protected:
 public:
     Store();
     ~Store();
+    // void Store::deleteAllMovies(BST* bst);
 
     // reading methods to read the files
     // Reads movie data from a given input file and populates the movie inventory.

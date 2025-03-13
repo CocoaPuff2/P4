@@ -46,8 +46,8 @@ int Comedy::compare(const Movie& other) const {
 
 void Comedy::display() const {
 
-    cout << genre << "   " << mediaType <<  "   " << title << "   " << director << "   " <<
-         year << "   " << stock << endl;
+    cout << genre << " " << mediaType <<  " " << title << " " << director << " " <<
+         year << " " << stock << endl;
 
 }
 

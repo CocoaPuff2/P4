@@ -73,6 +73,74 @@ private:
         }
     }
 
+    Node* inOrderDelete(Node* node, const Movie* movie) {
+        if (node == nullptr) {
+            return nullptr;  // Movie not found, return nullptr
+        }
+
+        int comparisonResult = movie->compare(*node->data);
+
+        // If the movie to delete is smaller, it lies in the left subtree
+        if (comparisonResult < 0) {
+            node->left = inOrderDelete(node->left, movie);
+        }
+            // If the movie to delete is greater, it lies in the right subtree
+        else if (comparisonResult > 0) {
+            node->right = inOrderDelete(node->right, movie);
+        }
+            // If the movie to delete is found
+        else {
+            // Case 1: Node has no children (leaf node)
+            if (node->left == nullptr && node->right == nullptr) {
+                delete node->data;  // Delete the Movie object
+                delete node;  // Delete the node
+                return nullptr;
+            }
+                // Case 2: Node has one child
+            else if (node->left == nullptr) {
+                Node* temp = node->right;
+                delete node->data;  // Delete the Movie object
+                delete node;  // Delete the node
+                return temp;
+            } else if (node->right == nullptr) {
+                Node* temp = node->left;
+                delete node->data;  // Delete the Movie object
+                delete node;  // Delete the node
+                return temp;
+            }
+                // Case 3: Node has two children
+            else {
+                // Find the in-order successor (smallest node in the right subtree)
+                Node* temp = findMin(node->right);
+                node->data = temp->data;  // Replace node's data with in-order successor's data
+                node->right = inOrderDelete(node->right, temp->data);  // Delete the in-order successor
+            }
+        }
+        return node;  // Return modified node
+    }
+
+    // Helper function to find the minimum value node (in-order successor)
+    Node* findMin(Node* node) {
+        while (node->left != nullptr) {
+            node = node->left;
+        }
+        return node;
+    }
+
+    void clearHelper(Node* node) {
+        if (node == nullptr) return;
+
+        // Recursively delete left and right subtrees first
+        clearHelper(node->left);
+        clearHelper(node->right);
+
+        // Delete the Movie object
+        delete node->data;
+        // Delete the node itself
+        delete node;
+    }
+
+
 public:
     // Constructor
     BST() : root(nullptr) {}
@@ -95,6 +163,15 @@ public:
     void inOrderTraversal() {
         inorder(root);
         cout << endl;
+    }
+
+    void deleteMovie(const Movie* movie) {
+        root = inOrderDelete(root, movie);
+    }
+
+    void clear() {
+        clearHelper(root);  // Start recursive deletion from the root
+        root = nullptr;  // Set root to nullptr after deletion
     }
 };
 
