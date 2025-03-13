@@ -45,19 +45,9 @@ int Comedy::compare(const Movie& other) const {
 }
 
 void Comedy::display() const {
-    /*
-    ofstream outFile("movies_output.txt", ios::app);  // Open the output file in append mode
-    if (outFile.is_open()) {
-        outFile << mediaType << " " << genre << " " << stock << " " << director << " " <<
-                title << " " << year << endl;
-        outFile.close();  // Always close the file when done writing
-    } else {
-        cout << "Error opening the file for writing! (Comedy movie)" << endl;
-    }
-     */
 
-    cout << genre << " " << mediaType <<  " " << title << " " << director << " " <<
-         year << " " << stock << endl;
+    cout << genre << "   " << mediaType <<  "   " << title << "   " << director << "   " <<
+         year << "   " << stock << endl;
 
 }
 

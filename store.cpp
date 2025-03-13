@@ -54,7 +54,6 @@ void Store::readMovie(ifstream& file){
     }
 }
 
-// todo check factory method
 Movie* Store::createMovie(const string& line) {
         stringstream ss(line);
         char genre;
@@ -106,6 +105,9 @@ Movie* Store::createMovie(const string& line) {
 void Store::displayAllMovies() const {
     cout << "-----------------------------------------------------------------------------------\n"
             "----------- "<< endl;
+    cout << "Comedies: " << endl;
+    cout << endl;
+    cout << "Genre  " << "Media   " << "Title   " << "Director   " << "Year   " << "Stock   " << endl;
 
     if (movieInventory.find('F') != movieInventory.end()) {
         movieInventory.at('F')->inOrderTraversal();  // Inorder traversal for Comedy BST
@@ -113,6 +115,9 @@ void Store::displayAllMovies() const {
 
     cout << "-----------------------------------------------------------------------------------\n"
             "----------- "<< endl;
+    cout << "Dramas: " << endl;
+    cout << endl;
+    cout << "Genre  " << "Media   " << "Title   " << "Director   " << "Year   " << "Stock   " << endl;
 
     // Display Drama movies (D)
     if (movieInventory.find('D') != movieInventory.end()) {
@@ -121,6 +126,10 @@ void Store::displayAllMovies() const {
 
     cout << "-----------------------------------------------------------------------------------\n"
             "----------- "<< endl;
+    cout << "Classics: " << endl;
+    cout << endl;
+    cout << "Genre  " << "Media   " << "Title   " << "Director   " << "Month   "
+    << "Year   " << "Stock   " << endl;
 
     // Display Classic movies (C)
     if (movieInventory.find('C') != movieInventory.end()) {
@@ -191,7 +200,7 @@ void Store::readCommands(ifstream& file) {
             // currently only the mediaType 'D' is accepted
             if (!checkMedia(mediaType)) {
                 cout << "ERROR: " << mediaType << " Invalid Media Type. Try Again." << endl;
-                file.ignore(numeric_limits<streamsize>::max(), '\n');
+                // file.ignore(numeric_limits<streamsize>::max(), '\n');
                 continue;
             }
 
@@ -230,7 +239,7 @@ void Store::readCommands(ifstream& file) {
 
         } else {
             cout << "ERROR: " << command << " Invalid Genre. Try Again.\n" << endl;
-            file.ignore(numeric_limits<streamsize>::max(), '\n');
+            // file.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         }
     }
