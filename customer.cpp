@@ -32,7 +32,9 @@ Customer::Customer(int customerID, const string& firstName, const string& lastNa
 
 // destructor
 Customer::~Customer() {
-
+    for (auto t : transactions) {
+        delete t;
+    }
 }
 
 // getters

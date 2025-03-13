@@ -73,6 +73,7 @@ private:
         }
     }
 
+    /*
     Node* inOrderDelete(Node* node, const Movie* movie) {
         if (node == nullptr) {
             return nullptr;  // Movie not found, return nullptr
@@ -126,6 +127,7 @@ private:
         }
         return node;
     }
+     */
 
     void clearHelper(Node* node) {
         if (node == nullptr) return;
@@ -165,9 +167,11 @@ public:
         cout << endl;
     }
 
+    /*
     void deleteMovie(const Movie* movie) {
         root = inOrderDelete(root, movie);
     }
+     */
 
     void clear() {
         clearHelper(root);  // Start recursive deletion from the root
