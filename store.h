@@ -56,7 +56,7 @@ public:
 
     // Reads commands from an input file and processes them (borrow, return, history)
     void readCommands(ifstream& file);
-    void printAllCustomerHistories();
+    // void printAllCustomerHistories();
     bool checkMedia(char mediaType);
 
     // manage transactions
@@ -71,7 +71,7 @@ public:
     // void addTransaction(Transaction* transaction);
 
     // Utility methods
-     Customer* findCustomerByID(int customerID);
+     // Customer* findCustomerByID(int customerID);
 };
 
 
