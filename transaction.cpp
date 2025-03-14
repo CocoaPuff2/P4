@@ -10,7 +10,6 @@ Transaction::Transaction(Movie* m, int newCustomerID)
 
 // destructor
 Transaction::~Transaction() {
-    // todo
 }
 
 // getters

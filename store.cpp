@@ -148,6 +148,58 @@ void Store::displayAllMovies() const {
     // Display Classic movies (C)
     if (movieInventory.find('C') != movieInventory.end()) {
         // movieInventory.at('C')->inOrderTraversal();  // Inorder traversal for Classic BST
+
+        vector<Movie*> classicMovies;
+        movieInventory.at('C')->inOrderTraversal(classicMovies);  // Collect movies
+
+        for (size_t i = 0; i < classicMovies.size(); i++) {
+            Classics* curr = dynamic_cast<Classics*>(classicMovies[i]);
+            if (!curr) continue;
+
+            int totalStock = curr->getStock();  // Start with the stock of the first occurrence
+            vector<pair<string, int>> actors = {
+                    {curr->getMajorActorFirstName() + " " + curr->getMajorActorLastName(), curr->getStock()}
+            };
+
+            // Merge stocks for duplicates and update total stock
+            while (i + 1 < classicMovies.size()) {
+                Classics* next = dynamic_cast<Classics*>(classicMovies[i + 1]);
+                if (next && curr->getTitle() == next->getTitle() &&
+                    curr->getReleaseMonth() == next->getReleaseMonth() &&
+                    curr->getYear() == next->getYear()) {
+                    totalStock += next->getStock();  // Add stock of the duplicate
+                    actors.push_back({next->getMajorActorFirstName() + " " + next->getMajorActorLastName(), next->getStock()});
+                    i++;  // Move to the next duplicate
+                } else {
+                    break;
+                }
+            }
+
+            // Print main movie details with total stock
+            cout << setw(8) << left << "C" << setw(8) << left << "D"
+                 << setw(35) << left << curr->getTitle()
+                 << setw(20) << left << curr->getDirector()
+                 << setw(8) << left << curr->getReleaseMonth()
+                 << setw(8) << left << curr->getYear()
+                 << setw(8) << left << totalStock << endl;
+
+            // Print actors and their individual stock
+            for (const auto& actor : actors) {
+                cout << setw(60) << right << actor.first
+                     << " --------------- " << setw(8) << left
+                     << actor.second << endl;
+            }
+
+            cout << endl;
+        }
+    }
+
+
+
+
+
+
+        /*
         vector<Movie*> classicMovies;
         movieInventory.at('C')->inOrderTraversal(classicMovies);  // Collect movies
 
@@ -193,6 +245,7 @@ void Store::displayAllMovies() const {
             cout << endl;
         }
     }
+         */
 
     cout << "-----------------------------------------------------------------------------------\n"
             "----------- "<< endl;

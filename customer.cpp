@@ -53,6 +53,14 @@ void Customer::displayHistory() const {
     cout << "History for " << firstName << " " << lastName << ": " << endl;
     // Sort transactions based on the genre and movie-specific sorting rules
 
+    for (auto it = transactions.rbegin(); it != transactions.rend(); ++it) {
+        if (*it) {
+            (*it)->displayTransaction();  // Call displayTransaction on each transaction
+        } else {
+            std::cout << "Invalid transaction." << std::endl;
+        }
+    }
+    /*
      for (const auto& transaction : transactions) {
          if (transaction) {
              transaction->displayTransaction();
@@ -60,6 +68,7 @@ void Customer::displayHistory() const {
              std::cout << "Invalid transaction." << std::endl;
          }
     }
+     */
      cout << endl;
 
 }
