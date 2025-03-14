@@ -19,12 +19,6 @@ Movie::Movie() {
 Movie::Movie(char genre, int stock, const string& director, const string& title, int year, char mediaType)
         : genre(genre), stock(stock), director(director), title(title), year(year), mediaType(mediaType) {}
 
-
-/*
-Movie::Movie(char genre, int stock, const string& director, const string& title, int year, char mediaType, vector<Transaction*> transactions)
-        : genre(genre), stock(stock), director(director), title(title), year(year), mediaType(mediaType), transactions(transactions) {}
-*/
-
 // destructor
 Movie::~Movie() {}
 

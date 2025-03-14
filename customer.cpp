@@ -21,14 +21,6 @@ Customer::Customer(int id, const string& last, const string& first)
     // transactions() automatically invoked to initialize the vector as empty.
 }
 
-/*
-Customer::Customer(int customerID, const string& firstName, const string& lastName)
-        : customerID(customerID), firstName(firstName), lastName(lastName) {
-    // nextCustomer = nullptr;
-    startTransaction = nullptr;
-}
- */
-
 
 // destructor
 Customer::~Customer() {
@@ -51,8 +43,7 @@ void Customer::addTransaction(Transaction* transaction) {
 // Displays the full transaction history for customer.
 void Customer::displayHistory() const {
     cout << "History for " << firstName << " " << lastName << ": " << endl;
-    // Sort transactions based on the genre and movie-specific sorting rules
-
+    // Print transactions in chronological order
     for (auto it = transactions.rbegin(); it != transactions.rend(); ++it) {
         if (*it) {
             (*it)->displayTransaction();  // Call displayTransaction on each transaction
@@ -60,15 +51,6 @@ void Customer::displayHistory() const {
             std::cout << "Invalid transaction." << std::endl;
         }
     }
-    /*
-     for (const auto& transaction : transactions) {
-         if (transaction) {
-             transaction->displayTransaction();
-         } else {
-             std::cout << "Invalid transaction." << std::endl;
-         }
-    }
-     */
      cout << endl;
 
 }

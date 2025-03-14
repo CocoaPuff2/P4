@@ -194,63 +194,9 @@ void Store::displayAllMovies() const {
         }
     }
 
-
-
-
-
-
-        /*
-        vector<Movie*> classicMovies;
-        movieInventory.at('C')->inOrderTraversal(classicMovies);  // Collect movies
-
-        for (size_t i = 0; i < classicMovies.size(); i++) {
-            Classics* curr = dynamic_cast<Classics*>(classicMovies[i]);
-            if (!curr) continue;
-
-            int totalStock = curr->getStock();
-            vector<pair<string, string>> actors = {
-                    {curr->getMajorActorFirstName(), curr->getMajorActorLastName()}
-            };
-
-            // Merge stocks for duplicates
-            while (i + 1 < classicMovies.size()) {
-                Classics* next = dynamic_cast<Classics*>(classicMovies[i + 1]);
-                if (next && curr->getTitle() == next->getTitle() &&
-                    curr->getReleaseMonth() == next->getReleaseMonth() &&
-                    curr->getYear() == next->getYear()) {
-                    totalStock += next->getStock();
-                    actors.push_back({next->getMajorActorFirstName(), next->getMajorActorLastName()});
-                    i++;  // Move to the next duplicate
-                } else {
-                    break;
-                }
-            }
-
-            // Print main movie details
-            cout << setw(8) << left << "C" << setw(8) << left << "D"
-                 << setw(35) << left << curr->getTitle()
-                 << setw(20) << left << curr->getDirector()
-                 << setw(8) << left << curr->getReleaseMonth()
-                 << setw(8) << left << curr->getYear()
-                 << setw(8) << left << totalStock << endl;
-
-            // Print actors and their stock
-            for (const auto& actor : actors) {
-                cout << setw(60) << right << actor.first << " " << actor.second
-                     << " --------------- " << setw(8) << left
-                     << curr->getStock() << endl;
-            }
-
-
-            cout << endl;
-        }
-    }
-         */
-
     cout << "-----------------------------------------------------------------------------------\n"
             "----------- "<< endl;
 }
-
 
 
 
@@ -262,7 +208,7 @@ int Store::hashFunction(int customerID) {
 void Store::readCustomers(ifstream& file) {
     string line;
     while (getline(file, line)) {
-        stringstream ss(line);  // Use stringstream to parse the line
+        stringstream ss(line);  // Use string stream to parse the line
         int customerID;
         string firstName, lastName;
 
@@ -330,7 +276,7 @@ void Store::readCommands(ifstream& file) {
 
         } else if (command == 'H') {
             ss >> customerID;
-            // TODO go thru the hashtable of customers, find the customer id that matches with the
+            // Goes thru the hashtable of customers, find the customer id that matches with the
             //  input for customerID and print that customer's transactions vector using displayTransactions
             // Step 1: Use the hash function to find the index in the customerTable array
             int index = hashFunction(customerID);
@@ -613,6 +559,7 @@ void Store::returnMovie(int customerID, char genre, string movieDetails) {
 }
 
 // Display transaction history for a customer
+/*
 void Store::displayHistory(int customerID) {
     // Search for the customer in the hash table or database
     Customer* customer = findCustomerByID(customerID);  // Assuming findCustomerByID is implemented
@@ -626,9 +573,11 @@ void Store::displayHistory(int customerID) {
         cout << "Customer  " << customerID << " not found." << endl;
     }
 }
+ */
 
 
 // Add a new transaction to the transaction history
+/*
 void Store::addTransaction(Transaction* transaction) {
     // Step 1: Get the customer ID from the transaction
     int customerID = transaction->getCustomerID();
@@ -643,6 +592,7 @@ void Store::addTransaction(Transaction* transaction) {
         cout << "Customer with ID " << customerID << " not found." << endl;
     }
 }
+ */
 
 // Utility methods
 // Would be altered if more mediaTypes were added
@@ -650,8 +600,8 @@ bool Store::checkMedia(char mediaType) {  // Definition
     return mediaType == 'D'; // Example logic
 }
 
-// todo add a checkGenre method?
-
+/*
 Customer* Store::findCustomerByID(int customerID) { // Find a customer by their ID
 }
+ */
 

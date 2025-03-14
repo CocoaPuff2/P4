@@ -14,13 +14,6 @@ Comedy::Comedy(char genre, int stock, string director, string title, int year, c
 }
 
 
-/*
-Comedy::Comedy(char genre, int stock, string director, string title, int year, char mediaType,
-               vector<Transaction*> transactions) : Movie(genre, stock, director, title, year,
-                                                          mediaType, transactions) {}
-*/
-
-
 Comedy::~Comedy(){
 }
 

@@ -29,25 +29,19 @@ struct LinkedListNode {
 
 class Store {
 protected:
-    // unordered_map<int, Customer*> customers;   // Hashtable for storing customers
-    LinkedListNode* customerTable[MAX_CUSTOMERS];
-    // Customer* hashTable[MAX_CUSTOMERS];
-    // hashtable for movies, each bucket points to a BST
-    // BST movieInventory;  // BST to store movies
+    LinkedListNode* customerTable[MAX_CUSTOMERS]; // Hashtable for storing customers
     unordered_map<char, BST*> movieInventory; // Hash table storing BSTs for each genre
 
 
 public:
     Store();
     ~Store();
-    // void Store::deleteAllMovies(BST* bst);
 
     // reading methods to read the files
     // Reads movie data from a given input file and populates the movie inventory.
     void readMovie(ifstream& file);
 
     // FACTORY METHOD to easily create and add new movies
-    // const string& line
     Movie* createMovie(const string& line);
 
     // for the output file
@@ -65,33 +59,20 @@ public:
     void printAllCustomerHistories();
     bool checkMedia(char mediaType);
 
-
-
-    // storing methods
-
     // manage transactions
     void borrowMovie(int customerID, char genre, string movieDetails);
-    // void borrowMovie(int customerID, int movieID);
 
     void returnMovie(int customerID, char genre, string movieDetails);
 
     // Display transaction history for a customer
-    // todo will call the customer display
-    void displayHistory(int customerID);
+    // void displayHistory(int customerID);
 
     // Add a new transaction to the transaction history
-    void addTransaction(Transaction* transaction);
+    // void addTransaction(Transaction* transaction);
 
     // Utility methods
-    //  Help the Store class interact with the movie and customer data structures
-    //  BST for movies, Hashtable for customers
-
-    // Movie* findMovieByID(int movieID); // Find a movie by its ID
      Customer* findCustomerByID(int customerID);
 };
-
-
-
 
 
 #endif //MY_EXECUTABLE_STORE_H
