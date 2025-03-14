@@ -22,7 +22,6 @@ Comedy::Comedy(char genre, int stock, string director, string title, int year, c
 
 
 Comedy::~Comedy(){
-    // todo
 }
 
 // comedy movies (‘F’) sorted by Title, then Year it released

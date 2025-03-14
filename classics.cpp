@@ -41,7 +41,6 @@ Classics::Classics(char newGenre, int newStock, const string& newDirector, const
 
 
 Classics::~Classics() {
-    // todo
 }
 
 

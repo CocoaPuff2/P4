@@ -11,7 +11,6 @@ Drama::Drama(char genre, int stock, string director, string title, int year, cha
 }
 
 Drama::~Drama() {
-    // todo:
 }
 
 // dramas (‘D’) are sorted by Director, then Title

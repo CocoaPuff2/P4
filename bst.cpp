@@ -161,6 +161,18 @@ public:
         return search(root, movie);
     }
 
+    void collectMovies(Node* node, vector<Movie*>& movies) {
+        if (node != nullptr) {
+            collectMovies(node->left, movies);
+            movies.push_back(node->data);  // Store movie in the vector
+            collectMovies(node->right, movies);
+        }
+    }
+
+    void inOrderTraversal(vector<Movie*>& movies) {
+        collectMovies(root, movies);
+    }
+
     // Perform in-order traversal, display the movie details
     void inOrderTraversal() {
         inorder(root);

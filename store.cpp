@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -142,17 +143,62 @@ void Store::displayAllMovies() const {
     cout << "-----------------------------------------------------------------------------------\n"
             "----------- "<< endl;
     cout << "Classics: " << endl;
-    cout << "Genre  " << "Media   " << "Title   " << "Director   " << "Month   "
-    << "Year   " << "Stock   " << endl;
+    cout << "Genre  " << "Media   " << "Title   " << "Director   " << "Year   " << "Stock   " << endl;
 
     // Display Classic movies (C)
     if (movieInventory.find('C') != movieInventory.end()) {
-        movieInventory.at('C')->inOrderTraversal();  // Inorder traversal for Classic BST
+        // movieInventory.at('C')->inOrderTraversal();  // Inorder traversal for Classic BST
+        vector<Movie*> classicMovies;
+        movieInventory.at('C')->inOrderTraversal(classicMovies);  // Collect movies
+
+        for (size_t i = 0; i < classicMovies.size(); i++) {
+            Classics* curr = dynamic_cast<Classics*>(classicMovies[i]);
+            if (!curr) continue;
+
+            int totalStock = curr->getStock();
+            vector<pair<string, string>> actors = {
+                    {curr->getMajorActorFirstName(), curr->getMajorActorLastName()}
+            };
+
+            // Merge stocks for duplicates
+            while (i + 1 < classicMovies.size()) {
+                Classics* next = dynamic_cast<Classics*>(classicMovies[i + 1]);
+                if (next && curr->getTitle() == next->getTitle() &&
+                    curr->getReleaseMonth() == next->getReleaseMonth() &&
+                    curr->getYear() == next->getYear()) {
+                    totalStock += next->getStock();
+                    actors.push_back({next->getMajorActorFirstName(), next->getMajorActorLastName()});
+                    i++;  // Move to the next duplicate
+                } else {
+                    break;
+                }
+            }
+
+            // Print main movie details
+            cout << setw(8) << left << "C" << setw(8) << left << "D"
+                 << setw(35) << left << curr->getTitle()
+                 << setw(20) << left << curr->getDirector()
+                 << setw(8) << left << curr->getReleaseMonth()
+                 << setw(8) << left << curr->getYear()
+                 << setw(8) << left << totalStock << endl;
+
+            // Print actors and their stock
+            for (const auto& actor : actors) {
+                cout << setw(60) << right << actor.first << " " << actor.second
+                     << " --------------- " << setw(8) << left
+                     << curr->getStock() << endl;
+            }
+
+
+            cout << endl;
+        }
     }
 
     cout << "-----------------------------------------------------------------------------------\n"
             "----------- "<< endl;
 }
+
+
 
 
 int Store::hashFunction(int customerID) {
@@ -252,7 +298,7 @@ void Store::readCommands(ifstream& file) {
             displayAllMovies();
 
         } else {
-            cout << "ERROR: " << command << " Invalid Genre. Try Again.\n" << endl;
+            cout << "ERROR: " << command << " Invalid Transaction Type. Try Again.\n" << endl;
             // file.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         }
@@ -400,7 +446,7 @@ void Store::returnMovie(int customerID, char genre, string movieDetails) {
     LinkedListNode* node = customerTable[hashKey];
 
     if (!node) {
-        cout << "Borrow Transaction Failed -- Customer " << customerID << " does not exist." << endl;
+        cout << "Return Transaction Failed -- Customer " << customerID << " does not exist." << endl;
         return;
     }
 
@@ -533,7 +579,6 @@ void Store::displayHistory(int customerID) {
 void Store::addTransaction(Transaction* transaction) {
     // Step 1: Get the customer ID from the transaction
     int customerID = transaction->getCustomerID();
-    cout << "Hooooo" << endl;
 
     // Step 2: Find the customer using the customer ID
     Customer* customer = findCustomerByID(customerID);
