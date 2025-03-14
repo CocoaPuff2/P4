@@ -14,6 +14,6 @@ ReturnMedia::ReturnMedia(Movie* movie, int customerID)
 // Implementation of the displayTransaction function
 void ReturnMedia::displayTransaction() const {
     std::cout << "Returned " << movie->getTitle()  // Fetch movie title
-              << " by " << movie->getDirector()  // Fetch movie director
+              << " by" << movie->getDirector()  // Fetch movie director
               << std::endl;
 }

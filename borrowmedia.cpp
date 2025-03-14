@@ -13,6 +13,6 @@ BorrowMedia::BorrowMedia(Movie* movie, int customerID)
 // Implementation of the displayTransaction function
 void BorrowMedia::displayTransaction() const {
     std::cout << "Borrowed " << movie->getTitle()  // Fetch movie title
-              << " by " << movie->getDirector()  // Fetch movie director
+              << " by" << movie->getDirector()  // Fetch movie director
               << std::endl;
 }
