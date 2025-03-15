@@ -70,6 +70,8 @@ void Store::readMovie(ifstream& file){
     }
 }
 
+
+
 Movie* Store::createMovie(const string& line) {
     stringstream ss(line);
     char genre;
@@ -93,7 +95,8 @@ Movie* Store::createMovie(const string& line) {
 
     mediaType = 'D';
 
-
+    // Check for the movie in the inventory
+    Movie* existingMovie = nullptr;
 
     // Create movie objects based on genre
     switch (genre) {
@@ -571,11 +574,13 @@ void Store::returnMovie(int customerID, char genre, string movieDetails) {
         return;
     }
 
+
     // Step 4: Check if the customer has borrowed this movie before trying to return it.
     if (!customer->hasBorrowed(movie)) {
         cout << "Return Transaction Failed -- Customer " << customerID << " did not borrow this movie." << endl;
         return;
     }
+
 
     // Step 5: Check if the movie is in stock (stock > 0)
     if (movie->getStock() <= 0) {
@@ -585,7 +590,7 @@ void Store::returnMovie(int customerID, char genre, string movieDetails) {
 
     // Step 5: Increase stock and create a transaction
     movie->increaseStock();  // Increase stock by 1
-    customer->removeBorrowed(movie);  // Remove from borrowed movies list
+    // customer->removeBorrowed(movie);  // Remove from borrowed movies list
     Transaction* transaction = new ReturnMedia(movie, customerID);
 
     // Step 6: Add transaction to the customer's history

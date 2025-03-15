@@ -27,7 +27,7 @@ private:
         if (comparisonResult < 0) {
             node->left = insert(node->left, movie);
         }
-        // If comparison result is greater than 0, insert in the right subtree
+            // If comparison result is greater than 0, insert in the right subtree
         else if (comparisonResult > 0) {
             node->right = insert(node->right, movie);
         }
@@ -128,4 +128,3 @@ public:
         root = nullptr;  // Set root to nullptr after deletion
     }
 };
-

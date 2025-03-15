@@ -37,6 +37,10 @@ void Movie::increaseStock() {
     ++stock;
 
 }
+
+void Movie::increaseStock(int add) {
+    stock + add;
+}
 void Movie::decreaseStock() {
     if (stock > 0) {
         --stock;

@@ -53,6 +53,7 @@ public:
 
     // increase and decrease stock;
     void increaseStock();
+    void increaseStock(int add);
     void decreaseStock();
 
     // compare method for sorting purposes

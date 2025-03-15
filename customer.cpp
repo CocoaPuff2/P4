@@ -55,11 +55,6 @@ void Customer::removeBorrowed(Movie* movie) {
     }
 }
 
-
-
-
-
-
 void Customer::addTransaction(Transaction* transaction) {
     // Add transaction to the vector
      transactions.push_back(transaction);
