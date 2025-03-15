@@ -70,8 +70,6 @@ void Store::readMovie(ifstream& file){
     }
 }
 
-
-
 Movie* Store::createMovie(const string& line) {
     stringstream ss(line);
     char genre;
@@ -94,9 +92,6 @@ Movie* Store::createMovie(const string& line) {
     ss.ignore();  // Skip space
 
     mediaType = 'D';
-
-    // Check for the movie in the inventory
-    Movie* existingMovie = nullptr;
 
     // Create movie objects based on genre
     switch (genre) {
@@ -122,6 +117,7 @@ Movie* Store::createMovie(const string& line) {
             return nullptr;
     }
 }
+
 
 void Store::displayAllMovies() const {
     cout << "-----------------------------------------------------------------------------------\n"

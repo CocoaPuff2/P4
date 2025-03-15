@@ -9,7 +9,7 @@ int main() {
     Store store;
 
     // Open the input file for reading movie data
-    ifstream inputFile("data4movies.txt");
+    ifstream inputFile("testmovies.txt");
     if (!inputFile) {
         cout << "Error opening the input file!" << endl;
         return 1;  // Exit if file can't be opened
