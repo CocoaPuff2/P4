@@ -251,6 +251,7 @@ void Store::insertCustomer(Customer* customer) {
     while (current != nullptr) {
         if (current->customer->getCustomerID() == customer->getCustomerID()) {
             cout << "ERROR: Duplicate Customer" << endl;
+            delete customer;
             return; // Exit without inserting
         }
         current = current->next;
