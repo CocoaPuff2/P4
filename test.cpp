@@ -1,77 +1,56 @@
 #include <iostream>
-#include "drama.h"
-#include "comedy.h"
-#include "classics.h"
-
+#include <fstream>
+#include "store.h"
 using namespace std;
-/*
-void testDrama() {
-    cout << "\n=== Testing Drama Movies ===\n";
-
-    Drama d1('D', 5, "Christopher Nolan", "Interstellar", 2014, 'D');
-    Drama d2('D', 7, "Steven Spielberg", "Jurassic Park", 1993, 'D');
-
-    // Test sorting (director -> title)
-    cout << "Drama Sorting Test: " << ((d1.compare(d2) < 0) ? "Passed\n" : "Failed\n");
-
-    // Test stock manipulation
-    d1.increaseStock();
-    cout << "Increase Stock Test: " << ((d1.getStock() == 6) ? "Passed\n" : "Failed\n");
-
-    d1.decreaseStock();
-    cout << "Decrease Stock Test: " << ((d1.getStock() == 5) ? "Passed\n" : "Failed\n");
-
-    // Display test
-    cout << "Display Test (Should print movie details): \n";
-    d1.display();
-}
-
-void testComedy() {
-    cout << "\n=== Testing Comedy Movies ===\n";
-
-    Comedy c1('F', 10, "Todd Phillips", "The Hangover", 2009, 'D');
-    Comedy c2('F', 12, "Judd Apatow", "Superbad", 2007, 'D');
-
-    // Test sorting (title -> year)
-    cout << "Comedy Sorting Test: " << ((c1.compare(c2) > 0) ? "Passed\n" : "Failed\n");
-
-    // Test stock manipulation
-    c1.increaseStock();
-    cout << "Increase Stock Test: " << ((c1.getStock() == 11) ? "Passed\n" : "Failed\n");
-
-    c1.decreaseStock();
-    cout << "Decrease Stock Test: " << ((c1.getStock() == 10) ? "Passed\n" : "Failed\n");
-
-    // Display test
-    cout << "Display Test (Should print movie details): \n";
-    c1.display();
-}
-
-void testClassics() {
-    cout << "\n=== Testing Classic Movies ===\n";
-
-    Classics cl1('C', 3, "Victor Fleming", "Gone with the Wind", "Clark", "Gable", 12, 1939, 'D');
-    Classics cl2('C', 4, "Michael Curtiz", "Casablanca", "Humphrey", "Bogart", 11, 1942, 'D');
-
-    // Test sorting (release year -> month -> actor)
-    cout << "Classics Sorting Test: " << ((cl1.compare(cl2) < 0) ? "Passed\n" : "Failed\n");
-
-    // Test stock manipulation
-    cl1.increaseStock();
-    cout << "Increase Stock Test: " << ((cl1.getStock() == 4) ? "Passed\n" : "Failed\n");
-
-    cl1.decreaseStock();
-    cout << "Decrease Stock Test: " << ((cl1.getStock() == 3) ? "Passed\n" : "Failed\n");
-
-    // Display test
-    cout << "Display Test (Should print movie details): \n";
-    cl1.display();
-}
 
 int main() {
-    testDrama();
-    testComedy();
-    testClassics();
+
+    // Create a Store object to manage the movies
+    Store store;
+
+    // Open the input file for reading movie data
+    ifstream inputFile("data4movies.txt");
+    if (!inputFile) {
+        cout << "Error opening the input file!" << endl;
+        return 1;  // Exit if file can't be opened
+    }
+
+    // Create an output file in the project folder
+    ofstream outputFile("./output.txt");
+    if (!outputFile) {
+        cout << "Output file could not be opened." << endl;
+        return 1;
+    }
+
+    // Read movies from the file
+    store.readMovie(inputFile);  // Read all movies and store them in BSTs
+    inputFile.close();  // Close the input file after reading
+
+    // Display all movies (store's displayAllMovies method)
+    outputFile.close(); // Close the output file after writing
+
+    // Open the customers' file
+    ifstream customerFile("testcustomers.txt");
+    if (!customerFile) {
+        cout << "Error opening the customers file!" << endl;
+        return 1;
+    }
+
+    // Read customer data and store it in the hash table
+    store.readCustomers(customerFile);
+    customerFile.close();  // Close the customer file after reading
+
+    // Open the commands file
+    ifstream commandsFile("testcommands.txt");
+    if (!commandsFile) {
+        cout << "Error opening the commands file!" << endl;
+        return 1;
+    }
+
+    // Read command data and process it
+    store.readCommands(commandsFile);
+    commandsFile.close();  // Close the commands file after reading
+
     return 0;
+
 }
-*/

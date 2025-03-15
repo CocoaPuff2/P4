@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include "customer.h"
+#include "borrowmedia.h"
 
 using namespace std;
 
@@ -34,6 +35,30 @@ int Customer::getCustomerID() const { return customerID;}
 string Customer::getFullName() { return firstName + " " + lastName; }
 string Customer::getFirst() { return firstName; }
 string Customer::getLast() { return lastName; }
+
+bool Customer::hasBorrowed(Movie* movie) {
+    for (Transaction* t : transactions) {
+        if (dynamic_cast<BorrowMedia*>(t) && t->getMovie() == movie) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Customer::removeBorrowed(Movie* movie) {
+    for (auto it = transactions.begin(); it != transactions.end(); ++it) {
+        if (dynamic_cast<BorrowMedia*>(*it) && (*it)->getMovie() == movie) {
+            delete *it;  // Free memory
+            transactions.erase(it);  // Remove from history
+            return;
+        }
+    }
+}
+
+
+
+
+
 
 void Customer::addTransaction(Transaction* transaction) {
     // Add transaction to the vector
