@@ -32,6 +32,26 @@ Store::~Store() {
             LinkedListNode* temp = current;
             current = current->next;
             delete temp->customer;  // Delete the customer object
+            delete temp;            // Delete the node itself
+        }
+    }
+
+    // Delete all movies in the movieInventory
+    for (auto& genreEntry : movieInventory) {
+        BST* bst = genreEntry.second;  // Get the BST for each genre
+        if (bst != nullptr) {
+            bst->clear();  // Assuming BST has a clear method to delete all Movie objects
+            delete bst;    // Delete the BST itself
+        }
+    }
+    /*
+    // Delete all customers in the customerTable
+    for (int i = 0; i < MAX_CUSTOMERS; i++) {
+        LinkedListNode* current = customerTable[i];
+        while (current != nullptr) {
+            LinkedListNode* temp = current;
+            current = current->next;
+            delete temp->customer;  // Delete the customer object
             delete temp;            // Delete the node
         }
     }
@@ -44,6 +64,7 @@ Store::~Store() {
             delete bst;    // Delete the BST itself
         }
     }
+    */
 }
 
 

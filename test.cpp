@@ -3,6 +3,7 @@
 #include "store.h"
 using namespace std;
 
+
 int main() {
 
     // Create a Store object to manage the movies
