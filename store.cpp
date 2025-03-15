@@ -71,31 +71,31 @@ void Store::readMovie(ifstream& file){
 }
 
 Movie* Store::createMovie(const string& line) {
-        stringstream ss(line);
-        char genre;
-        int stock;
-        string director;
-        string title;
-        int year;
-        char mediaType;
+    stringstream ss(line);
+    char genre;
+    int stock;
+    string director;
+    string title;
+    int year;
+    char mediaType;
 
-        ss >> genre;  // Read genre
-        ss.ignore();  // Skip comma and space
+    ss >> genre;  // Read genre
+    ss.ignore();  // Skip comma and space
 
-        ss >> stock;  // Read stock
-        ss.ignore();  // Skip comma and space
+    ss >> stock;  // Read stock
+    ss.ignore();  // Skip comma and space
 
-        getline(ss, director, ',');  // Read director
-        ss.ignore();  // Skip space
+    getline(ss, director, ',');  // Read director
+    ss.ignore();  // Skip space
 
-        getline(ss, title, ',');  // Read title
-        ss.ignore();  // Skip space
+    getline(ss, title, ',');  // Read title
+    ss.ignore();  // Skip space
 
-        mediaType = 'D';
+    mediaType = 'D';
 
 
 
-        // Create movie objects based on genre
+    // Create movie objects based on genre
     switch (genre) {
         case 'F': {  // Comedy
             ss >> year;
@@ -224,6 +224,32 @@ void Store::readCustomers(ifstream& file) {
 
 void Store::insertCustomer(Customer* customer) {
     // hash function: id mod max customer  (gets the key for the buckets)
+    int index = hashFunction(customer->getCustomerID());  // Hash, find bucket
+
+    // Check for duplicate customers in the linked list at this index
+    LinkedListNode* current = customerTable[index];
+    while (current != nullptr) {
+        if (current->customer->getCustomerID() == customer->getCustomerID()) {
+            cout << "ERROR: Duplicate Customer" << endl;
+            return; // Exit without inserting
+        }
+        current = current->next;
+    }
+
+    // ll for each bucket
+    // insert the customer into the LL
+    LinkedListNode* newNode = new LinkedListNode(customer);
+
+    // If no customer exists at that index, initialize linked list (LL) at that index
+    if (customerTable[index] == nullptr) {
+        customerTable[index] = newNode;
+    } else {
+        // Add new customer to the front of LL
+        newNode->next = customerTable[index];
+        customerTable[index] = newNode;
+    }
+    /*
+    // hash function: id mod max customer  (gets the key for the buckets)
     // ll for each bucket
     // insert the customer into the LL
     int index = hashFunction(customer->getCustomerID());  // Hash, find bucket
@@ -237,6 +263,7 @@ void Store::insertCustomer(Customer* customer) {
         newNode->next = customerTable[index];
         customerTable[index] = newNode;
     }
+     */
 }
 
 
@@ -271,7 +298,7 @@ void Store::readCommands(ifstream& file) {
             if (command == 'B') {
                 borrowMovie(customerID, genre, movieDetails);
             } else if (command == 'R') {
-                 returnMovie(customerID, genre, movieDetails);
+                returnMovie(customerID, genre, movieDetails);
             }
 
         } else if (command == 'H') {
@@ -320,7 +347,7 @@ void Store::borrowMovie(int customerID, char genre, string movieDetails) {
 
     if (!node) {
         cout << "Borrow Transaction Failed -- Customer " << customerID << " does not exist." << endl;
-       return;
+        return;
     }
 
     // Traverse linked list to find the customer
@@ -558,50 +585,10 @@ void Store::returnMovie(int customerID, char genre, string movieDetails) {
     customer->addTransaction(transaction);
 }
 
-// Display transaction history for a customer
-/*
-void Store::displayHistory(int customerID) {
-    // Search for the customer in the hash table or database
-    Customer* customer = findCustomerByID(customerID);  // Assuming findCustomerByID is implemented
-
-    // If customer exists, display their transaction history
-    if (customer != nullptr) {
-        cout << "Transaction history for " << customer->getFullName() << " (ID: " << customer->getCustomerID() << "):\n";
-        customer->displayHistory();  // Call the displayHistory method of the Customer class
-    } else {
-        // If customer is not found, print an error message
-        cout << "Customer  " << customerID << " not found." << endl;
-    }
-}
- */
-
-
-// Add a new transaction to the transaction history
-/*
-void Store::addTransaction(Transaction* transaction) {
-    // Step 1: Get the customer ID from the transaction
-    int customerID = transaction->getCustomerID();
-
-    // Step 2: Find the customer using the customer ID
-    Customer* customer = findCustomerByID(customerID);
-
-    // Step 3: If customer is found, add the transaction to the customer's history
-    if (customer) {
-        customer->addTransaction(transaction);  // Calls the Customer's addTransaction method
-    } else {
-        cout << "Customer with ID " << customerID << " not found." << endl;
-    }
-}
- */
-
 // Utility methods
 // Would be altered if more mediaTypes were added
 bool Store::checkMedia(char mediaType) {  // Definition
     return mediaType == 'D'; // Example logic
 }
 
-/*
-Customer* Store::findCustomerByID(int customerID) { // Find a customer by their ID
-}
- */
 

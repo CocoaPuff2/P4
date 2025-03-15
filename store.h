@@ -53,25 +53,14 @@ public:
     int hashFunction(int customerID);
     void insertCustomer(Customer* customer);
 
-
     // Reads commands from an input file and processes them (borrow, return, history)
     void readCommands(ifstream& file);
-    // void printAllCustomerHistories();
     bool checkMedia(char mediaType);
 
     // manage transactions
     void borrowMovie(int customerID, char genre, string movieDetails);
 
     void returnMovie(int customerID, char genre, string movieDetails);
-
-    // Display transaction history for a customer
-    // void displayHistory(int customerID);
-
-    // Add a new transaction to the transaction history
-    // void addTransaction(Transaction* transaction);
-
-    // Utility methods
-     // Customer* findCustomerByID(int customerID);
 };
 
 
